@@ -35,6 +35,10 @@ AUISystemPrototypeCharacter::AUISystemPrototypeCharacter()
 	//Mesh1P->SetRelativeRotation(FRotator(0.9f, -19.19f, 5.2f));
 	Mesh1P->SetRelativeLocation(FVector(-30.f, 0.f, -150.f));
 
+	// Set inventory component defaults
+	InventorySystemComponent = CreateDefaultSubobject<UInventorySystemComponent>(TEXT("InventorySystem"));
+	InventorySystemComponent->SetInventorySize(16);
+	InventorySystemComponent->SetInteractionRange(300.0f);
 }
 
 void AUISystemPrototypeCharacter::BeginPlay()

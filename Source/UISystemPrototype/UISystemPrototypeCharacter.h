@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
+#include "InventorySystemComponent.h"
 #include "UISystemPrototypeCharacter.generated.h"
 
 class UInputComponent;
@@ -39,6 +40,9 @@ class AUISystemPrototypeCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	class UInputAction* MoveAction;
 
+	/** Inventory System Component */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Inventory, meta = (AllowPrivateAccess = "true"))
+		class UInventorySystemComponent* InventorySystemComponent;
 	
 public:
 	AUISystemPrototypeCharacter();
