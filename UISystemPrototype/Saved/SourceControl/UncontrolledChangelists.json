@@ -1,0 +1,12 @@
+{
+	"version": 1,
+	"changelists": [
+		{
+			"guid": "00000000000000000000000000000000",
+			"description": "Default Uncontrolled Changelist",
+			"files": [
+				"C:/Users/Jaber/Documents/GitHub/UISystemPrototype/UISystemPrototype/Content/StarterContent/Architecture/Floor_400x400.uasset"
+			]
+		}
+	]
+}

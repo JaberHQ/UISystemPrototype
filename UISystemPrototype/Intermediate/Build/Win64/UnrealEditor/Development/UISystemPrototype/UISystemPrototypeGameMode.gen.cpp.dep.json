@@ -1,0 +1,19 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "c:\\users\\jaber\\documents\\github\\uisystemprototype\\uisystemprototype\\intermediate\\build\\win64\\unrealeditor\\inc\\uisystemprototype\\uht\\uisystemprototypegamemode.gen.cpp",
+        "ProvidedModule": "",
+        "PCH": "c:\\users\\jaber\\documents\\github\\uisystemprototype\\uisystemprototype\\intermediate\\build\\win64\\uisystemprototypeeditor\\development\\engine\\sharedpch.engine.shadowerrors.h.pch",
+        "Includes": [
+            "c:\\users\\jaber\\documents\\github\\uisystemprototype\\uisystemprototype\\intermediate\\build\\win64\\unrealeditor\\development\\uisystemprototype\\definitions.uisystemprototype.h",
+            "c:\\users\\jaber\\documents\\github\\uisystemprototype\\uisystemprototype\\source\\uisystemprototype\\uisystemprototypegamemode.h",
+            "c:\\program files\\epic games\\ue_5.1\\engine\\source\\runtime\\engine\\classes\\gameframework\\gamemodebase.h",
+            "c:\\program files\\epic games\\ue_5.1\\engine\\source\\runtime\\engine\\classes\\engine\\serverstatreplicator.h",
+            "c:\\program files\\epic games\\ue_5.1\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\uht\\serverstatreplicator.generated.h",
+            "c:\\program files\\epic games\\ue_5.1\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\uht\\gamemodebase.generated.h",
+            "c:\\users\\jaber\\documents\\github\\uisystemprototype\\uisystemprototype\\intermediate\\build\\win64\\unrealeditor\\inc\\uisystemprototype\\uht\\uisystemprototypegamemode.generated.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}
