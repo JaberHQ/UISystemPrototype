@@ -2,6 +2,8 @@
 
 
 #include "TestItemInteraction.h"
+#include "Engine/DataTable.h"
+#include "InventorySystemComponent.h"
 
 // Sets default values
 ATestItemInteraction::ATestItemInteraction()
@@ -9,6 +11,8 @@ ATestItemInteraction::ATestItemInteraction()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	ItemDataComponent = CreateDefaultSubobject<UItemDataComponent>(TEXT("ItemData"));
+	
 }
 
 // Called when the game starts or when spawned
@@ -27,8 +31,17 @@ void ATestItemInteraction::Tick(float DeltaTime)
 
 FText ATestItemInteraction::LookAt()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Test123"));
-	return FText();
+	FItemStruct* item = ItemDataComponent->ItemID.GetRow<FItemStruct>("Apple");
+	
+	FText name = item->Name;
+	FText lookAtText = FText::Format(FText::FromString("Pickup"), name);
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, lookAtText.ToString());
+	return lookAtText;
+
+
+	//FString("Pick up" TEXT(""item->Name.ToString());
+
+	
 }
 
 void ATestItemInteraction::InteractWith()

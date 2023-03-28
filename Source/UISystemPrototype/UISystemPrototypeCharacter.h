@@ -42,7 +42,7 @@ class AUISystemPrototypeCharacter : public ACharacter
 
 	/** Inventory System Component */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Inventory, meta = (AllowPrivateAccess = "true"))
-		class UInventorySystemComponent* InventorySystemComponent;
+	class UInventorySystemComponent* InventorySystemComponent;
 	
 public:
 	AUISystemPrototypeCharacter();

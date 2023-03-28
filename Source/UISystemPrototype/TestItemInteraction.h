@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "InteractiveInterface.h"
+#include "ItemDataComponent.h"
 #include "TestItemInteraction.generated.h"
 
 UCLASS()
@@ -28,4 +29,9 @@ public:
 	virtual FText LookAt() override;
 
 	virtual void InteractWith() override;
+
+public:
+	/** Inventory System Component */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Inventory, meta = (AllowPrivateAccess = "true"))
+	class UItemDataComponent* ItemDataComponent;
 };
