@@ -16,9 +16,6 @@ UItemDataComponent::UItemDataComponent()
 
 	ItemID.DataTable = itemData.Object;
 
-	
-	
-	/// Script / Engine.DataTable'/Game/InventorySystem/DataTable/ItemData.ItemData'
 	Quantity = 1;
 }
 
@@ -54,5 +51,15 @@ void UItemDataComponent::SetQuantity(int32 quanitity)
 int32 UItemDataComponent::GetQuantity()
 {
 	return Quantity;
+}
+
+FText UItemDataComponent::LookAt()
+{
+	return FText();
+}
+
+void UItemDataComponent::InteractWith()
+{
+	GetOwner()->Destroy();
 }
 

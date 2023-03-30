@@ -77,6 +77,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
 	float InteractionRange; /* Range for interaction of objects */
 
+	/** Interact Mapping Context **/
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputMappingContext* InteractMappingContext;
+
+	/** Interact Input Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* InteractAction;
 
 private:
 	void InteractionTracing();
@@ -94,5 +101,9 @@ public:
 	
 	float GetInteractionRange();
 
+	UFUNCTION(BlueprintCallable, Category = "Interact")
+	void Interact();
+
+	void InteractWithActor(AActor* target);
 	
 };

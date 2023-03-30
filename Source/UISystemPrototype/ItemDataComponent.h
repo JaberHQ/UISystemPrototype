@@ -5,11 +5,12 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Engine/DataTable.h"
+#include "InteractiveInterface.h"
 #include "ItemDataComponent.generated.h"
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class UISYSTEMPROTOTYPE_API UItemDataComponent : public UActorComponent
+class UISYSTEMPROTOTYPE_API UItemDataComponent : public UActorComponent, public IInteractiveInterface
 {
 	GENERATED_BODY()
 
@@ -39,4 +40,9 @@ public:
 	void SetQuantity(int32 quanitity);
 
 	int32 GetQuantity();
+
+	/* Interface functions */
+	virtual FText LookAt() override;
+
+	virtual void InteractWith() override;
 };

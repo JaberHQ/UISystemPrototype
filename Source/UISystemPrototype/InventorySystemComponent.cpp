@@ -5,7 +5,9 @@
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "InteractiveInterface.h"
-
+#include "EnhancedInputComponent.h"
+#include "EnhancedInputSubsystems.h"
+#include "ItemDataComponent.h"
 // Sets default values for this component's properties
 UInventorySystemComponent::UInventorySystemComponent()
 	:InventorySize(16)
@@ -27,6 +29,17 @@ void UInventorySystemComponent::BeginPlay()
 
 	// ...
 
+	if (APlayerController* PlayerController = Cast<APlayerController>(GetOwner()->GetInstigatorController()))
+	{
+		if(UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
+		{
+			Subsystem->AddMappingContext(InteractMappingContext, 2);
+		}
+		if(UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerController->InputComponent))
+		{
+			EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Triggered, this, &UInventorySystemComponent::Interact);
+		}
+	}
 }
 
 
@@ -100,6 +113,28 @@ void UInventorySystemComponent::SetInteractionRange(float interactionRange)
 float UInventorySystemComponent::GetInteractionRange()
 {
 	return InteractionRange;
+}
+
+void UInventorySystemComponent::Interact()
+{
+	if(lookAtActor)
+	{
+		InteractWithActor(lookAtActor);
+	}
+
+}
+
+void UInventorySystemComponent::InteractWithActor(AActor* target)
+{
+	UItemDataComponent* ItemDataComponenent = target->FindComponentByClass<UItemDataComponent>();
+	if(ItemDataComponenent)
+	{
+		IInteractiveInterface* interactiveInterface = Cast<IInteractiveInterface>(ItemDataComponenent);
+		if (interactiveInterface)
+		{
+			interactiveInterface->InteractWith();
+		}
+	}
 }
 
 
