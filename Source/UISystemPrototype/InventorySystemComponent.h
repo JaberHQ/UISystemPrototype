@@ -63,7 +63,10 @@ public:
 
 private:
 	AActor* lookAtActor;
-
+	int32 m_quantityRemaining;
+	bool m_localHasFailed;
+	bool m_foundSlot;
+	int32 m_emptyIndex;
 public:
 
 	/* Accessible within editor */
@@ -89,7 +92,7 @@ private:
 	void InteractionTracing();
 public:
 
-	void AddToInventory();
+	void AddToInventory(FName itemID, int32 quantity);
 	
 	void RemoveFromInventory();
 
@@ -106,4 +109,18 @@ public:
 
 	void InteractWithActor(AActor* target);
 	
+	int32 FindSlot(FName itemID);
+
+	int32 GetMaxStackSize(FName itemID);
+
+	void AddToStack(int32 index, int32 quantity);
+
+	bool AnyEmptySlotsAvailable();
+
+	bool CreateNewStack(FName itemID, int32 quantity);
+
+	bool InventorySlotAvailable();
+
+	UFUNCTION(BlueprintCallable)
+	void Debug_Print();
 };

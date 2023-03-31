@@ -40,11 +40,11 @@ FText ATestItemInteraction::LookAt()
 
 
 	//FString("Pick up" TEXT(""item->Name.ToString());
-
+	
 	
 }
 
-void ATestItemInteraction::InteractWith()
+void ATestItemInteraction::InteractWith(AUISystemPrototypeCharacter* playerCharacter)
 {
 }
 

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
+#include "UISystemPrototypeCharacter.h"
 #include "InteractiveInterface.generated.h"
 
 // This class does not need to be modified.
@@ -26,5 +27,5 @@ public:
 	virtual FText LookAt() = 0;
 
 	UFUNCTION()
-	virtual void InteractWith() = 0;
+	virtual void InteractWith(AUISystemPrototypeCharacter* playerCharacter) = 0;
 };

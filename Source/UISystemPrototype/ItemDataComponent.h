@@ -44,5 +44,5 @@ public:
 	/* Interface functions */
 	virtual FText LookAt() override;
 
-	virtual void InteractWith() override;
+	virtual void InteractWith(AUISystemPrototypeCharacter* playerCharacter) override;
 };

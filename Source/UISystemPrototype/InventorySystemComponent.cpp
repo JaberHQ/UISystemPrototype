@@ -19,6 +19,7 @@ UInventorySystemComponent::UInventorySystemComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
+	
 }
 
 
@@ -40,6 +41,7 @@ void UInventorySystemComponent::BeginPlay()
 			EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Triggered, this, &UInventorySystemComponent::Interact);
 		}
 	}
+	Content.SetNum(InventorySize);
 }
 
 
@@ -87,8 +89,36 @@ void UInventorySystemComponent::InteractionTracing()
 		}
 	}
 }
-void UInventorySystemComponent::AddToInventory()
+void UInventorySystemComponent::AddToInventory(FName itemID, int32 quantity)
 {
+	m_quantityRemaining = quantity;
+	while(m_quantityRemaining > 0 && !m_localHasFailed)
+	{
+		int32 index = FindSlot(itemID);
+		if(m_foundSlot)
+		{
+			AddToStack(index, 1); // Adds a single item
+			m_quantityRemaining--;
+		}
+		else
+		{
+			if(AnyEmptySlotsAvailable())
+			{
+				if(CreateNewStack(itemID, 1))
+				{
+					m_quantityRemaining--;
+				}
+				else
+				{
+					m_localHasFailed = true;
+				}
+			}
+			else
+			{
+				m_localHasFailed = true;
+			}
+		}
+	}
 }
 
 void UInventorySystemComponent::RemoveFromInventory()
@@ -126,14 +156,111 @@ void UInventorySystemComponent::Interact()
 
 void UInventorySystemComponent::InteractWithActor(AActor* target)
 {
-	UItemDataComponent* ItemDataComponenent = target->FindComponentByClass<UItemDataComponent>();
-	if(ItemDataComponenent)
+	UItemDataComponent* ItemDataComponent = target->FindComponentByClass<UItemDataComponent>();
+	if(ItemDataComponent)
 	{
-		IInteractiveInterface* interactiveInterface = Cast<IInteractiveInterface>(ItemDataComponenent);
-		if (interactiveInterface)
+		IInteractiveInterface* interactiveInterface = Cast<IInteractiveInterface>(ItemDataComponent);
+		if(interactiveInterface)
 		{
-			interactiveInterface->InteractWith();
+			//UISystemPrototypeCharacter* playerCharacter = GetWorld()->GetFirstPlayerController()->GetCharacter();
+			AUISystemPrototypeCharacter* playerCharacter = Cast<AUISystemPrototypeCharacter>(GetOwner());
+			if(playerCharacter)
+			{
+				interactiveInterface->InteractWith(playerCharacter);
+			}
 		}
+	}
+}
+
+int32 UInventorySystemComponent::FindSlot(FName itemID)
+{
+	for(int i = 0; i< Content.Num(); i++)
+	{
+		if(Content[i].ItemID == itemID)
+		{
+			if(Content[i].Quantity < GetMaxStackSize(itemID))
+			{
+				m_foundSlot = true;
+				return i;
+			}
+		}
+	}
+	m_foundSlot = false;
+	return -1;
+}
+
+int32 UInventorySystemComponent::GetMaxStackSize(FName itemID)
+{
+	UItemDataComponent* ItemDataComponent = lookAtActor->FindComponentByClass<UItemDataComponent>();
+
+	if(ItemDataComponent)
+	{
+		FItemStruct* item = ItemDataComponent->ItemID.GetRow<FItemStruct>(itemID.ToString());
+		if(item)
+		{
+			return item->StackSize;
+		}
+	}
+	return -1;
+}
+
+void UInventorySystemComponent::AddToStack(int32 index, int32 quantity)
+{
+	TArray<FSlotStruct> TempArray;
+	TempArray = Content;
+	TempArray[index].Quantity += quantity;
+	TempArray[index].ItemID;
+	Content[index].ItemID = TempArray[index].ItemID;
+	Content[index].Quantity = TempArray[index].Quantity;
+	
+
+}
+
+bool UInventorySystemComponent::AnyEmptySlotsAvailable()
+{
+	for(int i =0; i<Content.Num(); i++)
+	{
+		if(Content[i].Quantity == 0)
+		{
+			m_emptyIndex = i;
+			return true;
+		}
+	}
+	m_emptyIndex = -1;
+	return false;
+}
+
+bool UInventorySystemComponent::CreateNewStack(FName itemID, int32 quantity)
+{
+	if(AnyEmptySlotsAvailable())
+	{
+		Content[m_emptyIndex].ItemID = itemID;
+		Content[m_emptyIndex].Quantity = quantity;
+		return true;
+	}
+	return false;
+}
+
+bool UInventorySystemComponent::InventorySlotAvailable()
+{
+	return !m_localHasFailed;
+}
+
+void UInventorySystemComponent::Debug_Print()
+{
+	for(int i = 1; i<Content.Num(); i++)
+	{
+		//FString::Appendf(index, ';', Content[i].ItemID, ' = ', Content[i].Quantity);
+		FString debugText;
+
+		debugText.Append(FString::FromInt(i));
+		debugText.AppendChar(':');
+		debugText.Append(Content[i].ItemID.ToString());
+		debugText.Append(" = ");
+		debugText.Append(FString::FromInt(Content[i].Quantity));
+
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, debugText);
+
 	}
 }
 

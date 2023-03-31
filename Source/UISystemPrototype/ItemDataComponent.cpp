@@ -2,7 +2,7 @@
 
 
 #include "ItemDataComponent.h"
-
+#include "InventorySystemComponent.h"
 // Sets default values for this component's properties
 UItemDataComponent::UItemDataComponent()
 {
@@ -58,8 +58,19 @@ FText UItemDataComponent::LookAt()
 	return FText();
 }
 
-void UItemDataComponent::InteractWith()
+void UItemDataComponent::InteractWith(AUISystemPrototypeCharacter* playerCharacter)
 {
-	GetOwner()->Destroy();
+	if(playerCharacter)
+	{
+		UInventorySystemComponent* inventorySystem = playerCharacter->FindComponentByClass<UInventorySystemComponent>();
+		if(inventorySystem)
+		{
+			inventorySystem->AddToInventory(ItemID.RowName, Quantity);
+			if(inventorySystem->InventorySlotAvailable())
+			{
+				GetOwner()->Destroy();
+			}
+		}
+	}
 }
 

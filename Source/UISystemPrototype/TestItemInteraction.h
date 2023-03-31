@@ -27,11 +27,11 @@ public:
 
 	/* Interface functions */
 	virtual FText LookAt() override;
-
-	virtual void InteractWith() override;
+	
+	virtual void InteractWith(AUISystemPrototypeCharacter* playerCharacter) override;
 
 public:
-	/** Inventory System Component */
+	/** Item Data Component */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Inventory, meta = (AllowPrivateAccess = "true"))
 	class UItemDataComponent* ItemDataComponent;
 };
