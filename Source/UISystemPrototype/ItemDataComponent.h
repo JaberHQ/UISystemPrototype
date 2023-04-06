@@ -31,7 +31,7 @@ public:
 	FDataTableRowHandle ItemID;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
-		int Quantity;
+	int Quantity;
 
 public:
 	
