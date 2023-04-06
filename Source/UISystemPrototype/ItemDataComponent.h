@@ -31,15 +31,15 @@ public:
 	FDataTableRowHandle ItemID;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
-	int32 Quantity;
+		int Quantity;
 
 public:
 	
 	FDataTableRowHandle GetItemID();
 
-	void SetQuantity(int32 quanitity);
+	void SetQuantity(int quanitity);
 
-	int32 GetQuantity();
+	int GetQuantity();
 
 	/* Interface functions */
 	virtual FText LookAt() override;

@@ -17,7 +17,7 @@ struct FSlotStruct : public FTableRowBase
 	FName ItemID;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Items")
-	int32 Quantity;
+	int Quantity;
 };
 
 // Struct for items
@@ -39,7 +39,7 @@ struct FItemStruct : public FTableRowBase
 	TSubclassOf<class AActor> ItemClass;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Items")
-	int32 StackSize;
+	int StackSize;
 };
 
 
@@ -63,16 +63,16 @@ public:
 
 private:
 	AActor* lookAtActor;
-	int32 m_quantityRemaining;
+	int m_quantityRemaining;
 	bool m_localHasFailed;
 	bool m_foundSlot;
-	int32 m_emptyIndex;
+	int m_emptyIndex;
 public:
 
 	/* Accessible within editor */
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
-	int32 InventorySize; /* Size of Inventory */
+	int InventorySize; /* Size of Inventory */
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
 	TArray<FSlotStruct> Content; /* An array for the content of the inventory */
@@ -92,13 +92,13 @@ private:
 	void InteractionTracing();
 public:
 
-	void AddToInventory(FName itemID, int32 quantity);
+	void AddToInventory(FName itemID, int quantity);
 	
 	void RemoveFromInventory();
 
-	void SetInventorySize(int32 newInventorySize);
+	void SetInventorySize(int newInventorySize);
 	
-	int32 GetInventorySize();
+	int GetInventorySize();
 
 	void SetInteractionRange(float interactionRange);
 	
@@ -109,15 +109,15 @@ public:
 
 	void InteractWithActor(AActor* target);
 	
-	int32 FindSlot(FName itemID);
+	int FindSlot(FName itemID);
 
-	int32 GetMaxStackSize(FName itemID);
+	int GetMaxStackSize(FName itemID);
 
-	void AddToStack(int32 index, int32 quantity);
+	void AddToStack(int index, int quantity);
 
 	bool AnyEmptySlotsAvailable();
 
-	bool CreateNewStack(FName itemID, int32 quantity);
+	bool CreateNewStack(FName itemID, int quantity);
 
 	bool InventorySlotAvailable();
 

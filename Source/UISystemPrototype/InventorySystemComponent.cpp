@@ -8,11 +8,13 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "ItemDataComponent.h"
+
 // Sets default values for this component's properties
 UInventorySystemComponent::UInventorySystemComponent()
 	:InventorySize(16)
 	,InteractionRange(300.0f)
 	,lookAtActor(nullptr)
+	,m_localHasFailed(false)
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
@@ -89,12 +91,12 @@ void UInventorySystemComponent::InteractionTracing()
 		}
 	}
 }
-void UInventorySystemComponent::AddToInventory(FName itemID, int32 quantity)
+void UInventorySystemComponent::AddToInventory(FName itemID, int quantity)
 {
 	m_quantityRemaining = quantity;
 	while(m_quantityRemaining > 0 && !m_localHasFailed)
 	{
-		int32 index = FindSlot(itemID);
+		int index = FindSlot(itemID);
 		if(m_foundSlot)
 		{
 			AddToStack(index, 1); // Adds a single item
@@ -106,6 +108,7 @@ void UInventorySystemComponent::AddToInventory(FName itemID, int32 quantity)
 			{
 				if(CreateNewStack(itemID, 1))
 				{
+					CreateNewStack(itemID, 1);
 					m_quantityRemaining--;
 				}
 				else
@@ -125,7 +128,7 @@ void UInventorySystemComponent::RemoveFromInventory()
 {
 }
 
-void UInventorySystemComponent::SetInventorySize(int32 newInventorySize)
+void UInventorySystemComponent::SetInventorySize(int newInventorySize)
 {
 	InventorySize = newInventorySize;
 }
@@ -172,9 +175,9 @@ void UInventorySystemComponent::InteractWithActor(AActor* target)
 	}
 }
 
-int32 UInventorySystemComponent::FindSlot(FName itemID)
+int UInventorySystemComponent::FindSlot(FName itemID)
 {
-	for(int i = 0; i< Content.Num(); i++)
+	for(int i = 0; i < Content.Num(); i++)
 	{
 		if(Content[i].ItemID == itemID)
 		{
@@ -189,7 +192,7 @@ int32 UInventorySystemComponent::FindSlot(FName itemID)
 	return -1;
 }
 
-int32 UInventorySystemComponent::GetMaxStackSize(FName itemID)
+int UInventorySystemComponent::GetMaxStackSize(FName itemID)
 {
 	UItemDataComponent* ItemDataComponent = lookAtActor->FindComponentByClass<UItemDataComponent>();
 
@@ -204,7 +207,7 @@ int32 UInventorySystemComponent::GetMaxStackSize(FName itemID)
 	return -1;
 }
 
-void UInventorySystemComponent::AddToStack(int32 index, int32 quantity)
+void UInventorySystemComponent::AddToStack(int index, int quantity)
 {
 	TArray<FSlotStruct> TempArray;
 	TempArray = Content;
@@ -230,7 +233,7 @@ bool UInventorySystemComponent::AnyEmptySlotsAvailable()
 	return false;
 }
 
-bool UInventorySystemComponent::CreateNewStack(FName itemID, int32 quantity)
+bool UInventorySystemComponent::CreateNewStack(FName itemID, int quantity)
 {
 	if(AnyEmptySlotsAvailable())
 	{

@@ -11,10 +11,7 @@ UItemDataComponent::UItemDataComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
-	static ConstructorHelpers::FObjectFinder<UDataTable>
-		itemData(TEXT("/Game/InventorySystem/DataTable/ItemData.ItemData"));
-
-	ItemID.DataTable = itemData.Object;
+	
 
 	Quantity = 1;
 }
@@ -26,7 +23,7 @@ void UItemDataComponent::BeginPlay()
 	Super::BeginPlay();
 
 	// ...
-	
+
 }
 
 
@@ -43,12 +40,12 @@ FDataTableRowHandle UItemDataComponent::GetItemID()
 	return ItemID;
 }
 
-void UItemDataComponent::SetQuantity(int32 quanitity)
+void UItemDataComponent::SetQuantity(int quanitity)
 {
 	Quantity = quanitity;
 }
 
-int32 UItemDataComponent::GetQuantity()
+int UItemDataComponent::GetQuantity()
 {
 	return Quantity;
 }
