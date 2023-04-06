@@ -89,36 +89,51 @@ public:
 	class UInputAction* InteractAction;
 
 private:
+	/* Check if there is an item to interact */
 	void InteractionTracing();
 public:
 
+	/* Add item to inventory */
 	void AddToInventory(FName itemID, int quantity);
 	
+	/* Remove an item from inventory*/
 	void RemoveFromInventory();
 
+	/* Set new inventory size */
 	void SetInventorySize(int newInventorySize);
 	
+	/* Get the current inventory size */
 	int GetInventorySize();
 
+	/* Set the interaction range of interactable objects */
 	void SetInteractionRange(float interactionRange);
 	
+	/* Get the interaction range of interactable objects */
 	float GetInteractionRange();
 
+	/* Interact function called from enhanced input key */
 	UFUNCTION(BlueprintCallable, Category = "Interact")
 	void Interact();
 
+	/* Interact with target actor */
 	void InteractWithActor(AActor* target);
 	
+	/* Find inventory slot */
 	int FindSlot(FName itemID);
 
+	/* Get the max stack size of an item */
 	int GetMaxStackSize(FName itemID);
 
+	/* Add item to a stack */
 	void AddToStack(int index, int quantity);
 
+	/* Check if any empty slots are available */
 	bool AnyEmptySlotsAvailable();
 
+	/* Creates a new stack in inventory */
 	bool CreateNewStack(FName itemID, int quantity);
 
+	/* Checks if inventory slot is available */
 	bool InventorySlotAvailable();
 
 	UFUNCTION(BlueprintCallable)
