@@ -8,8 +8,15 @@ void UInventorySlotWidget::NativePreConstruct()
 {
 	Super::NativePreConstruct();
 
+	
+}
+
+void UInventorySlotWidget::NativeConstruct()
+{
+	Super::NativeConstruct();
+
 	FItemStruct* item = ItemDataTable->FindRow<FItemStruct>(ItemID, ItemID.ToString());
-	if(item)
+	if (item)
 	{
 		Icon->SetBrushFromTexture(item->Thumbnail);
 		QuantityText->SetText(UKismetTextLibrary::Conv_IntToText(Quantity));
@@ -22,10 +29,4 @@ void UInventorySlotWidget::NativePreConstruct()
 		QuantitySizeBox->SetVisibility(ESlateVisibility::Hidden);
 		Icon->SetVisibility(ESlateVisibility::Hidden);
 	}
-}
-void UInventorySlotWidget::NativeConstruct()
-{
-	Super::NativeConstruct();
-
-	
 }

@@ -17,12 +17,12 @@ class UISYSTEMPROTOTYPE_API UPlayerMenuWidget : public UUserWidget
 	GENERATED_BODY()
 	
 public:
-	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	UPROPERTY(meta = (BindWidget))
 	class UCanvasPanel* CanvasPanel;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UInventoryGridWidget* InventoryGridWidget;
 
 public:
-	virtual void NativePreConstruct() override;
+	virtual void NativeConstruct() override;
 };

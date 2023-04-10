@@ -11,4 +11,7 @@ AUISystemPrototypeGameMode::AUISystemPrototypeGameMode()
 	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnClassFinder(TEXT("/Game/FirstPerson/Blueprints/BP_FirstPersonCharacter"));
 	DefaultPawnClass = PlayerPawnClassFinder.Class;
 
+	// Set player controller class to PlayerControllerFPS
+	static ConstructorHelpers::FClassFinder<APlayerController> PlayerControllerClassFinder(TEXT("/Game/FirstPerson/Blueprints/BP_PlayerControllerFPS"));
+	PlayerControllerClass = PlayerControllerClassFinder.Class;
 }

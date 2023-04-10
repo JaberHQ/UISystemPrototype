@@ -3,9 +3,9 @@
 
 #include "InventoryGridWidget.h"
 
-void UInventoryGridWidget::NativePreConstruct()
+void UInventoryGridWidget::NativeConstruct()
 {
-	Super::NativePreConstruct();
+	Super::NativeConstruct();
 
 	DisplayInventory(InventorySystemComp);
 	if(InventorySystemComp)

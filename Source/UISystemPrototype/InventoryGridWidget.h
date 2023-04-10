@@ -21,22 +21,23 @@ class UISYSTEMPROTOTYPE_API UInventoryGridWidget : public UUserWidget
 	
 
 public:
-	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	UPROPERTY(meta = (BindWidget))
 	class UBorder* Border;
 
-	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	UPROPERTY(meta = (BindWidget))
 	class UScrollBox* ScrollBox;
 
-	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	UPROPERTY(meta = (BindWidget))
 	class UWrapBox* GridBox;
 	
-	UPROPERTY(EditAnywhere)
-	UInventorySlotWidget* InventorySlotWidget;
+	UPROPERTY()
+	class UInventorySlotWidget* InventorySlotWidget;
 
-	UInventorySystemComponent* InventorySystemComp;
+	UPROPERTY()
+	class UInventorySystemComponent* InventorySystemComp;
 
 public:
-	virtual void NativePreConstruct() override;
+	virtual void NativeConstruct() override;
 
 	void DisplayInventory(UInventorySystemComponent* inventorySystemComp);
 };
