@@ -12,8 +12,8 @@
 // Sets default values for this component's properties
 UInventorySystemComponent::UInventorySystemComponent()
 	:InventorySize(16)
-	,InteractionRange(300.0f)
 	,lookAtActor(nullptr)
+	,InteractionRange(300.0f)
 	,m_localHasFailed(false)
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features

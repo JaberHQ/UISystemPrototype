@@ -14,18 +14,31 @@ class UInteractiveInterface : public UInterface
 	GENERATED_BODY()
 };
 
-/**
+/*****************************************************************************************************
+ * Type: Class
+ *
+ * Name: IInteractiveInterface
+ *
+ * Author: Jaber A
+ *
+ * Purpose: Interface for items that are being interacted with by the player
  * 
- */
+ * Change Log:
+ * Date          Initials    Version     Comments
+ * 28/03/2023    JA          V1.0        Created interface class
+*****************************************************************************************************/
 class UISYSTEMPROTOTYPE_API IInteractiveInterface
 {
 	GENERATED_BODY()
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
+
+	/* Message for when item is being looked at */
 	UFUNCTION()
 	virtual FText LookAt() = 0;
 
+	/* Events when item is interacted with */
 	UFUNCTION()
 	virtual void InteractWith(AUISystemPrototypeCharacter* playerCharacter) = 0;
 };
