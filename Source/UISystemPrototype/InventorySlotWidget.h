@@ -55,7 +55,7 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	class UTextBlock* QuantityText;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY()
 	class UInventorySystemComponent* InventorySystemComp;
 
 	UPROPERTY(EditAnywhere)
@@ -70,7 +70,6 @@ public:
 private:
 
 public:
-	virtual void NativePreConstruct() override;
 
 	virtual void NativeConstruct() override;
 

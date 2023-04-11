@@ -20,7 +20,7 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	class UCanvasPanel* CanvasPanel;
 
-	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	UPROPERTY(meta = (BindWidget))
 	class UInventoryGridWidget* InventoryGridWidget;
 
 public:

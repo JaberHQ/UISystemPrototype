@@ -13,9 +13,9 @@ void APlayerControllerFPS::BeginPlay()
 
 	
 	// Set player controller class to PlayerControllerFPS
-	static ConstructorHelpers::FClassFinder<UPlayerHUDWidget> PlayerHUDClassFinder(TEXT("/Game/PlayerHUD/W_PlayerHUD"));
+	//static ConstructorHelpers::FClassFinder<UPlayerHUDWidget> PlayerHUDClassFinder(TEXT("/Game/PlayerHUD/W_PlayerHUD"));
 
-
+	
 
 	// Get Enhanced players input 
 	if(UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
@@ -29,10 +29,30 @@ void APlayerControllerFPS::BeginPlay()
 		EnhancedInputComponent->BindAction(InventoryAction, ETriggerEvent::Triggered, this, &APlayerControllerFPS::InventoryActionPressed);
 	}
 	
-	PlayerHUDWidget->AddToViewport();
+	
+
+	if(PlayerHUDWidget)
+	{
+		PlayerHUDWidget = CreateWidget<UPlayerHUDWidget>(this, PlayerHudWidgetClass);
+		PlayerHUDWidget->AddToViewport();
+	}
 }
+
+APlayerControllerFPS::APlayerControllerFPS()
+	: Super()
+{
+	static ConstructorHelpers::FClassFinder<UPlayerHUDWidget> PlayerHUDClassFinder(TEXT("/Game/PlayerHUD/W_PlayerHUD"));
+	if(PlayerHUDClassFinder.Class)
+	{
+		PlayerHudWidgetClass = PlayerHUDClassFinder.Class;
+	}
+}
+
 
 void APlayerControllerFPS::InventoryActionPressed()
 {
-	PlayerHUDWidget->DisplayPlayerMenu();
+	if(PlayerHUDWidget)
+	{
+		PlayerHUDWidget->DisplayPlayerMenu();
+	}
 }

@@ -8,13 +8,15 @@ void UPlayerMenuWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	
+
 	//AActor* player = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	ACharacter* player = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 	
 	UInventorySystemComponent* inventorySystemComp = player->FindComponentByClass<UInventorySystemComponent>();
 	//player->FindComponentByClass<UInventorySystemComponent>();
 	//UInventorySystemComponent* inventorySystemComp = player->FindComponentByClass<UInventorySystemComponent>();
-
-	InventoryGridWidget->DisplayInventory(inventorySystemComp);
+	if(inventorySystemComp)
+	{
+		InventoryGridWidget->DisplayInventory(inventorySystemComp);
+	}
 }

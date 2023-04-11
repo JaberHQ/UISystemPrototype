@@ -17,11 +17,20 @@ class UISYSTEMPROTOTYPE_API UPlayerHUDWidget : public UUserWidget
 	GENERATED_BODY()
 private:
 public:
-	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	UPROPERTY(meta = (BindWidget))
 	class UCanvasPanel* CanvasPanel;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY()
+	TSubclassOf<UPlayerHUDWidget> PlayerMenuWidgetClass;
+
+
+	UPROPERTY()
 	class UUserWidget* PlayerMenuWidget;
 public:
 	void DisplayPlayerMenu();
+
+	virtual void NativePreConstruct() override;
+
+	virtual void NativeConstruct() override;
+
 };

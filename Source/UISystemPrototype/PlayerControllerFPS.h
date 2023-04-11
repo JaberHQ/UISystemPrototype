@@ -33,5 +33,10 @@ public:
 	class UInputAction* InventoryAction;
 
 	UPROPERTY()
+	TSubclassOf<UPlayerHUDWidget> PlayerHudWidgetClass;
+
+	UPROPERTY()
 	class UPlayerHUDWidget* PlayerHUDWidget;
+
+	APlayerControllerFPS();
 };

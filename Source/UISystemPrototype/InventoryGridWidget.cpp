@@ -23,6 +23,9 @@ void UInventoryGridWidget::NativeConstruct()
 
 void UInventoryGridWidget::DisplayInventory(UInventorySystemComponent* inventorySystemComp)
 {
-	InventorySystemComp = inventorySystemComp;
-	GridBox->ClearChildren();
+	if(InventorySystemComp)
+	{
+		InventorySystemComp = inventorySystemComp;
+		GridBox->ClearChildren();
+	}
 }

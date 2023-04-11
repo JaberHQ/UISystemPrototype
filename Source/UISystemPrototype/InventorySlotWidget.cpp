@@ -4,19 +4,13 @@
 #include "InventorySlotWidget.h"
 #include "Kismet/KismetTextLibrary.h"
 
-void UInventorySlotWidget::NativePreConstruct()
-{
-	Super::NativePreConstruct();
-
-	
-}
 
 void UInventorySlotWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
 	FItemStruct* item = ItemDataTable->FindRow<FItemStruct>(ItemID, ItemID.ToString());
-	if (item)
+	if(item)
 	{
 		Icon->SetBrushFromTexture(item->Thumbnail);
 		QuantityText->SetText(UKismetTextLibrary::Conv_IntToText(Quantity));
