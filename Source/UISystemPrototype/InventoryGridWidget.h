@@ -36,8 +36,14 @@ public:
 	UPROPERTY()
 	class UInventorySystemComponent* InventorySystemComp;
 
+	UPROPERTY()
+		TSubclassOf<UInventorySlotWidget> InventorySlotWidgetClass;
+
 public:
 	virtual void NativeConstruct() override;
 
 	void DisplayInventory(UInventorySystemComponent* inventorySystemComp);
+
+	UInventoryGridWidget(const FObjectInitializer& ObjectInitializer);
+
 };

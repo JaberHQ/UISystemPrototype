@@ -21,16 +21,16 @@ public:
 	class UCanvasPanel* CanvasPanel;
 
 	UPROPERTY()
-	TSubclassOf<UPlayerHUDWidget> PlayerMenuWidgetClass;
+	TSubclassOf<UUserWidget> PlayerMenuWidgetClass;
 
 
 	UPROPERTY()
 	class UUserWidget* PlayerMenuWidget;
+
 public:
 	void DisplayPlayerMenu();
 
-	virtual void NativePreConstruct() override;
 
-	virtual void NativeConstruct() override;
+	UPlayerHUDWidget(const FObjectInitializer& ObjectInitializer);
 
 };

@@ -23,6 +23,12 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	class UInventoryGridWidget* InventoryGridWidget;
 
+	UPROPERTY()
+	TSubclassOf<UInventoryGridWidget> InventoryGridWidgetClass;
+
 public:
 	virtual void NativeConstruct() override;
+
+	UPlayerMenuWidget(const FObjectInitializer& ObjectInitializer);
+
 };

@@ -31,7 +31,7 @@ void APlayerControllerFPS::BeginPlay()
 	
 	
 
-	if(PlayerHUDWidget)
+	if(PlayerHudWidgetClass)
 	{
 		PlayerHUDWidget = CreateWidget<UPlayerHUDWidget>(this, PlayerHudWidgetClass);
 		PlayerHUDWidget->AddToViewport();
@@ -51,6 +51,7 @@ APlayerControllerFPS::APlayerControllerFPS()
 
 void APlayerControllerFPS::InventoryActionPressed()
 {
+
 	if(PlayerHUDWidget)
 	{
 		PlayerHUDWidget->DisplayPlayerMenu();
