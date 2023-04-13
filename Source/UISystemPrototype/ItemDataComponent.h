@@ -8,7 +8,19 @@
 #include "InteractiveInterface.h"
 #include "ItemDataComponent.generated.h"
 
-
+/*****************************************************************************
+ * Type: Class
+ *
+ * Name: UItemDataComponent
+ *
+ * Author: Jaber A
+ *
+ * Purpose: Component that handles all item data
+ *
+ * Change Log:
+ * Date          Initials    Version     Comments
+ * 28/03/2023    JA          V1.0        Created Item Data Component
+*****************************************************************************/
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class UISYSTEMPROTOTYPE_API UItemDataComponent : public UActorComponent, public IInteractiveInterface
 {
@@ -28,21 +40,29 @@ public:
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
-	FDataTableRowHandle ItemID;
+	FDataTableRowHandle ItemID; // Item's unique ID
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
-	int Quantity;
+	int Quantity; // Item's quantity
 
 public:
 	
+	/* Get Item ID from DataTable */
 	FDataTableRowHandle GetItemID();
 
-	void SetQuantity(int quanitity);
+	/* Set Item's Quantity */
+	void SetQuantity(int quantity);
 
+	/* Get Item's Quantity */
 	int GetQuantity();
 
-	/* Interface functions */
+/* ***************************** Interface functions ***********************************/
+//	
+	/* Events for when item is looked at by player */
 	virtual FText LookAt() override;
 
+	/* Takes in player reference and executes interaction events */
 	virtual void InteractWith(AUISystemPrototypeCharacter* playerCharacter) override;
+//
+/***************************************************************************************/
 };

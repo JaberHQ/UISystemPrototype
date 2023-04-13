@@ -5,19 +5,21 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 
-
+APlayerControllerFPS::APlayerControllerFPS()
+{
+	// Find BP 'W_PlayerHUD'
+	static ConstructorHelpers::FClassFinder<UPlayerHUDWidget> PlayerHUDClassFinder(TEXT("/Game/PlayerHUD/W_PlayerHUD"));
+	if(PlayerHUDClassFinder.Class)
+	{
+		PlayerHudWidgetClass = PlayerHUDClassFinder.Class;
+	}
+}
 
 void APlayerControllerFPS::BeginPlay()
 {
 	Super::BeginPlay();
 
-	
-	// Set player controller class to PlayerControllerFPS
-	//static ConstructorHelpers::FClassFinder<UPlayerHUDWidget> PlayerHUDClassFinder(TEXT("/Game/PlayerHUD/W_PlayerHUD"));
-
-	
-
-	// Get Enhanced players input 
+	// Get Enhanced player input 
 	if(UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 	{
 		// Add new mapping context for interacting with items and adding them into the inventory system
@@ -28,9 +30,8 @@ void APlayerControllerFPS::BeginPlay()
 		// Input action for interaction (inventory system)
 		EnhancedInputComponent->BindAction(InventoryAction, ETriggerEvent::Triggered, this, &APlayerControllerFPS::InventoryActionPressed);
 	}
-	
-	
 
+	/* Add PlayerHUD Widget to viewport */
 	if(PlayerHudWidgetClass)
 	{
 		PlayerHUDWidget = CreateWidget<UPlayerHUDWidget>(this, PlayerHudWidgetClass);
@@ -38,20 +39,8 @@ void APlayerControllerFPS::BeginPlay()
 	}
 }
 
-APlayerControllerFPS::APlayerControllerFPS()
-	: Super()
-{
-	static ConstructorHelpers::FClassFinder<UPlayerHUDWidget> PlayerHUDClassFinder(TEXT("/Game/PlayerHUD/W_PlayerHUD"));
-	if(PlayerHUDClassFinder.Class)
-	{
-		PlayerHudWidgetClass = PlayerHUDClassFinder.Class;
-	}
-}
-
-
 void APlayerControllerFPS::InventoryActionPressed()
 {
-
 	if(PlayerHUDWidget)
 	{
 		PlayerHUDWidget->DisplayPlayerMenu();

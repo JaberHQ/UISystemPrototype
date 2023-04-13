@@ -34,7 +34,7 @@ void UInventorySystemComponent::BeginPlay()
 
 
 	// Get player controller
-	if (APlayerController* PlayerController = Cast<APlayerController>(GetOwner()->GetInstigatorController()))
+	if(APlayerController* PlayerController = Cast<APlayerController>(GetOwner()->GetInstigatorController()))
 	{
 		// Get Enhanced players input 
 		if(UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
@@ -74,6 +74,8 @@ void UInventorySystemComponent::InteractionTracing()
 		TArray<AActor*> actorsToIgnore;
 		actorsToIgnore.Add(GetOwner());
 		FHitResult hit;
+
+		// ECC_GameTraceChannel2 is a custom channel created in the editor for collision
 		bool bHit = UKismetSystemLibrary::SphereTraceSingle(GetWorld(), start, end, 15.0f, UEngineTypes::ConvertToTraceType(ECC_GameTraceChannel2),
 			false, actorsToIgnore, EDrawDebugTrace::None, hit, true);
 

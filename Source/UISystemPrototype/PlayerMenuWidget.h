@@ -8,9 +8,19 @@
 #include "InventoryGridWidget.h"
 #include "PlayerMenuWidget.generated.h"
 
-/**
- * 
- */
+/*****************************************************************************
+ * Type: Class
+ *
+ * Name: UPlayerMenuWidget
+ *
+ * Author: Jaber A
+ *
+ * Purpose: Widget for Player menu
+ *
+ * Change Log:
+ * Date          Initials    Version     Comments
+ * 09/04/2023    JA          V1.0        Created Widget
+*****************************************************************************/
 UCLASS()
 class UISYSTEMPROTOTYPE_API UPlayerMenuWidget : public UUserWidget
 {
@@ -23,12 +33,9 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	class UInventoryGridWidget* InventoryGridWidget;
 
-	UPROPERTY()
-	TSubclassOf<UInventoryGridWidget> InventoryGridWidgetClass;
-
 public:
+	/* Native Construct */
 	virtual void NativeConstruct() override;
 
-	UPlayerMenuWidget(const FObjectInitializer& ObjectInitializer);
 
 };

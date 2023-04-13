@@ -13,16 +13,25 @@
 #include "InventorySystemComponent.h"
 #include "InventorySlotWidget.generated.h"
 
-/**
- * 
- */
+/*****************************************************************************
+ * Type: Class
+ *
+ * Name: UInventorySlotWidget
+ *
+ * Author: Jaber A
+ *
+ * Purpose: Widget for inventory slots
+ *
+ * Change Log:
+ * Date          Initials    Version     Comments
+ * 09/04/2023    JA          V1.0        Created Widget
+*****************************************************************************/
 UCLASS()
 class UISYSTEMPROTOTYPE_API UInventorySlotWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
 private:
-	
 
 public:
 	UPROPERTY(meta = (BindWidget))
@@ -55,9 +64,6 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	class UTextBlock* QuantityText;
 
-	UPROPERTY()
-	class UInventorySystemComponent* InventorySystemComp;
-
 	UPROPERTY(EditAnywhere)
 	FName ItemID;
 
@@ -67,10 +73,10 @@ public:
 	UPROPERTY(EditAnywhere, Category = "DataTable")
 	UDataTable* ItemDataTable;
 
-private:
+	class UInventorySystemComponent* InventorySystemComp; 
 
 public:
-
+	/* Native Construct */
 	virtual void NativeConstruct() override;
 
 };

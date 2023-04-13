@@ -7,9 +7,19 @@
 #include "PlayerHUDWidget.h"
 #include "PlayerControllerFPS.generated.h"
 
-/**
- * 
- */
+/*****************************************************************************
+ * Type: Class
+ *
+ * Name: APlayerControllerFPS
+ *
+ * Author: Jaber A
+ *
+ * Purpose: Player controller class
+ *
+ * Change Log:
+ * Date          Initials    Version     Comments
+ * 10/04/2023    JA          V1.0        Created Player controller class
+*****************************************************************************/
 UCLASS()
 class UISYSTEMPROTOTYPE_API APlayerControllerFPS : public APlayerController
 {
@@ -24,19 +34,21 @@ protected:
 
 
 public:
-	/** Interact Mapping Context **/
+	/** Inventory Mapping Context **/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputMappingContext* InventoryMappingContext;
 
-	/** Interact Input Action */
+	/** Inventory Input Action **/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* InventoryAction;
 
 	UPROPERTY()
-	TSubclassOf<UPlayerHUDWidget> PlayerHudWidgetClass;
+	TSubclassOf<UPlayerHUDWidget> PlayerHudWidgetClass; // Reference to BP 'W_PlayerHUD' class
 
 	UPROPERTY()
-	class UPlayerHUDWidget* PlayerHUDWidget;
+	class UPlayerHUDWidget* PlayerHUDWidget; // Reference to playerHUD widget 
 
+public:
+	/* Constructor */
 	APlayerControllerFPS();
 };

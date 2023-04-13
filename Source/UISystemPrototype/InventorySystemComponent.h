@@ -7,7 +7,20 @@
 #include "Engine/DataTable.h"
 #include "InventorySystemComponent.generated.h"
 
-// Struct for slots
+
+/*****************************************************************************
+ * Type: Struct
+ *
+ * Name: FSlotStruct
+ *
+ * Author: Jaber A
+ *
+ * Purpose: Struct for inventory slot data
+ *
+ * Change Log:
+ * Date          Initials    Version     Comments
+ * 28/03/2023    JA          V1.0        Created slot struct
+*****************************************************************************/
 USTRUCT(BlueprintType)
 struct FSlotStruct : public FTableRowBase
 {
@@ -20,7 +33,19 @@ struct FSlotStruct : public FTableRowBase
 	int Quantity;
 };
 
-// Struct for items
+/*****************************************************************************
+ * Type: Struct
+ *
+ * Name: FItemStruct
+ *
+ * Author: Jaber A
+ *
+ * Purpose: Struct for item data
+ *
+ * Change Log:
+ * Date          Initials    Version     Comments
+ * 28/03/2023    JA          V1.0        Created item struct
+*****************************************************************************/
 USTRUCT(BlueprintType)
 struct FItemStruct : public FTableRowBase
 {
@@ -43,7 +68,19 @@ struct FItemStruct : public FTableRowBase
 };
 
 
-// Inventory System Component Class
+/*****************************************************************************
+ * Type: Class
+ *
+ * Name: UInventorySystemComponent
+ *
+ * Author: Jaber A
+ *
+ * Purpose: Handles all inventory system events and data
+ *
+ * Change Log:
+ * Date          Initials    Version     Comments
+ * 28/03/2023    JA          V1.0        Created Inventory System class
+*****************************************************************************/
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class UISYSTEMPROTOTYPE_API UInventorySystemComponent : public UActorComponent
 {
@@ -62,31 +99,27 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
-	AActor* lookAtActor;
-	int m_quantityRemaining;
-	bool m_localHasFailed;
-	bool m_foundSlot;
-	int m_emptyIndex;
+	AActor* lookAtActor; // Target actor
+	int m_quantityRemaining; // Local quantity Remaining
+	bool m_localHasFailed; // Fail safe for while loop
+	bool m_foundSlot; // Slot has been found
+	int m_emptyIndex; // The last empty index of inventory slot
+
 public:
-
-	/* Accessible within editor */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
+	int InventorySize; // Size of Inventory 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
-	int InventorySize; /* Size of Inventory */
+	TArray<FSlotStruct> Content; // An array for the content of the inventory
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
-	TArray<FSlotStruct> Content; /* An array for the content of the inventory */
+	float InteractionRange; // Range for interaction of objects 
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
-	float InteractionRange; /* Range for interaction of objects */
-
-	/** Interact Mapping Context **/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	class UInputMappingContext* InteractMappingContext;
+	class UInputMappingContext* InteractMappingContext; // Interact Mapping Context 
 
-	/** Interact Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	class UInputAction* InteractAction;
+	class UInputAction* InteractAction; // Interact Input Action 
 
 private:
 	/* Check if there is an item to interact */
@@ -136,6 +169,7 @@ public:
 	/* Checks if inventory slot is available */
 	bool InventorySlotAvailable();
 
+	/* Debug print inventory system */
 	UFUNCTION(BlueprintCallable)
 	void Debug_Print();
 };

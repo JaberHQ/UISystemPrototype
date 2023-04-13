@@ -9,7 +9,7 @@
 ATestItemInteraction::ATestItemInteraction()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	ItemDataComponent = CreateDefaultSubobject<UItemDataComponent>(TEXT("ItemData"));
 	
@@ -31,6 +31,7 @@ void ATestItemInteraction::Tick(float DeltaTime)
 
 FText ATestItemInteraction::LookAt()
 {
+	/* Display 'pickup' text when item can be picked up */
 	FItemStruct* item = ItemDataComponent->ItemID.GetRow<FItemStruct>("Apple");
 	if(item)
 	{
@@ -40,11 +41,6 @@ FText ATestItemInteraction::LookAt()
 		return lookAtText;
 	}
 	return FText();
-
-
-	//FString("Pick up" TEXT(""item->Name.ToString());
-	
-	
 }
 
 void ATestItemInteraction::InteractWith(AUISystemPrototypeCharacter* playerCharacter)

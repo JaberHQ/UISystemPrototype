@@ -8,29 +8,40 @@
 #include "PlayerMenuWidget.h"
 #include "PlayerHUDWidget.generated.h"
 
-/**
- * 
- */
+/*****************************************************************************
+ * Type: Class
+ *
+ * Name: UPlayerHUDWidget
+ *
+ * Author: Jaber A
+ *
+ * Purpose: Player HUD Widget class
+ *
+ * Change Log:
+ * Date          Initials    Version     Comments
+ * 10/04/2023    JA          V1.0        Created Player HUD Widget class
+*****************************************************************************/
 UCLASS()
 class UISYSTEMPROTOTYPE_API UPlayerHUDWidget : public UUserWidget
 {
 	GENERATED_BODY()
-private:
+
 public:
 	UPROPERTY(meta = (BindWidget))
 	class UCanvasPanel* CanvasPanel;
 
 	UPROPERTY()
-	TSubclassOf<UUserWidget> PlayerMenuWidgetClass;
-
+	TSubclassOf<UUserWidget> PlayerMenuWidgetClass; // Reference to BP 'W_PlayerMenu' widget
 
 	UPROPERTY()
 	class UUserWidget* PlayerMenuWidget;
 
 public:
+	/* Constructor */
+	UPlayerHUDWidget(const FObjectInitializer& ObjectInitializer);
+
+	/* Display inventory menu */
 	void DisplayPlayerMenu();
 
-
-	UPlayerHUDWidget(const FObjectInitializer& ObjectInitializer);
 
 };

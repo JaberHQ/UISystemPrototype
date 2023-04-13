@@ -11,15 +11,24 @@
 #include "InventorySlotWidget.h"
 #include "InventoryGridWidget.generated.h"
 
-/**
- * 
- */
+/*****************************************************************************
+ * Type: Class
+ *
+ * Name: UInventoryGridWidget
+ *
+ * Author: Jaber A
+ *
+ * Purpose: Widget for inventory grid
+ *
+ * Change Log:
+ * Date          Initials    Version     Comments
+ * 09/04/2023    JA          V1.0        Created Widget
+*****************************************************************************/
 UCLASS()
 class UISYSTEMPROTOTYPE_API UInventoryGridWidget : public UUserWidget
 {
 	GENERATED_BODY()
 	
-
 public:
 	UPROPERTY(meta = (BindWidget))
 	class UBorder* Border;
@@ -40,10 +49,12 @@ public:
 		TSubclassOf<UInventorySlotWidget> InventorySlotWidgetClass;
 
 public:
-	virtual void NativeConstruct() override;
-
-	void DisplayInventory(UInventorySystemComponent* inventorySystemComp);
-
+	/* Constructor */
 	UInventoryGridWidget(const FObjectInitializer& ObjectInitializer);
 
+	/* Native Construct */
+	virtual void NativeConstruct() override;
+
+	/* Display Inventory On Screen */
+	void DisplayInventory(UInventorySystemComponent* inventorySystemComp);
 };

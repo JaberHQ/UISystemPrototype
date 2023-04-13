@@ -8,11 +8,11 @@ UItemDataComponent::UItemDataComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 
 	// ...
 	
-
+	// Set inital quantity
 	Quantity = 1;
 }
 
@@ -40,9 +40,9 @@ FDataTableRowHandle UItemDataComponent::GetItemID()
 	return ItemID;
 }
 
-void UItemDataComponent::SetQuantity(int quanitity)
+void UItemDataComponent::SetQuantity(int quantity)
 {
-	Quantity = quanitity;
+	Quantity = quantity;
 }
 
 int UItemDataComponent::GetQuantity()
@@ -57,14 +57,18 @@ FText UItemDataComponent::LookAt()
 
 void UItemDataComponent::InteractWith(AUISystemPrototypeCharacter* playerCharacter)
 {
+	/* Interact with the player */
 	if(playerCharacter)
 	{
 		UInventorySystemComponent* inventorySystem = playerCharacter->FindComponentByClass<UInventorySystemComponent>();
+
+		/* Add to inventory and destroy object */
 		if(inventorySystem)
 		{
 			inventorySystem->AddToInventory(ItemID.RowName, Quantity);
 			if(inventorySystem->InventorySlotAvailable())
 			{
+				
 				GetOwner()->Destroy();
 			}
 		}

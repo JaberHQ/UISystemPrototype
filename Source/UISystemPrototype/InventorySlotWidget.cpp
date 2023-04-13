@@ -9,6 +9,8 @@ void UInventorySlotWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
+	/* If item in slot, set as visible
+		else keep hidden */
 	FItemStruct* item = ItemDataTable->FindRow<FItemStruct>(ItemID, ItemID.ToString());
 	if(item)
 	{

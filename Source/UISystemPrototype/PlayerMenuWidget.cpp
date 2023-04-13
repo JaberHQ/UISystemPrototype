@@ -8,7 +8,7 @@ void UPlayerMenuWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-
+	/* Get inventory system component from player */
 	ACharacter* player = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 	UInventorySystemComponent* inventorySystemComp = player->FindComponentByClass<UInventorySystemComponent>();
 	
@@ -16,14 +16,8 @@ void UPlayerMenuWidget::NativeConstruct()
 	{
 		InventoryGridWidget->DisplayInventory(inventorySystemComp);
 	}
+
+	APlayerController* playerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 }
 
-UPlayerMenuWidget::UPlayerMenuWidget(const FObjectInitializer& ObjectInitializer)
-	:Super(ObjectInitializer)
-{
-	static ConstructorHelpers::FClassFinder<UInventoryGridWidget> InventoryGridWidgetClassFinder(TEXT("/Game/InventorySystem/Widgets/W_InventoryGrid"));
-	if (InventoryGridWidgetClassFinder.Class)
-	{
-		InventoryGridWidgetClass = InventoryGridWidgetClassFinder.Class;
-	}
-}
+
