@@ -19,7 +19,6 @@ void UInventoryGridWidget::NativeConstruct()
 
 	if(InventorySystemComp)
 		DisplayInventory(InventorySystemComp);
-
 }
 
 void UInventoryGridWidget::DisplayInventory(UInventorySystemComponent* inventorySystemComp)

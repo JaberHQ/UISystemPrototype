@@ -37,5 +37,10 @@ public:
 	/* Native Construct */
 	virtual void NativeConstruct() override;
 
+	/* Native Destruct */
+	virtual void NativeDestruct() override;
+
+
+	//virtual FEventReply OnKeyDown(FGeometry MyGeometry, FKeyEvent InKeyEvent);
 
 };

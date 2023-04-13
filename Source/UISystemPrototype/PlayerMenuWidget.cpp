@@ -16,8 +16,36 @@ void UPlayerMenuWidget::NativeConstruct()
 	{
 		InventoryGridWidget->DisplayInventory(inventorySystemComp);
 	}
-
+	FInputModeUIOnly inputModeUI;
 	APlayerController* playerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+
+	if(playerController)
+	{
+		playerController->SetInputMode(inputModeUI);
+		InventoryGridWidget->bIsFocusable = true;
+		InventoryGridWidget->SetFocus();
+		playerController->bShowMouseCursor = true;
+	}
 }
+
+void UPlayerMenuWidget::NativeDestruct()
+{
+	APlayerController* playerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+	if(playerController)
+	{
+		FInputModeGameOnly inputModeGame;
+		playerController->SetInputMode(inputModeGame);
+		playerController->bShowMouseCursor = false;
+	}
+
+}
+
+//FEventReply UPlayerMenuWidget::OnKeyDown(FGeometry MyGeometry, FKeyEvent InKeyEvent)
+//{
+//	
+//
+//	//if(InKeyEvent.GetKey() == 
+//	return FEventReply();
+//}
 
 
