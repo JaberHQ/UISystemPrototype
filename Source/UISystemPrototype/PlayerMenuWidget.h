@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Components/CanvasPanel.h"
 #include "InventoryGridWidget.h"
+#include "Input/Reply.h"
 #include "PlayerMenuWidget.generated.h"
 
 /*****************************************************************************
@@ -40,7 +41,9 @@ public:
 	/* Native Destruct */
 	virtual void NativeDestruct() override;
 
+	//UFUNCTION(BlueprintCallable)
+	//virtual FEventReply NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
 
-	//virtual FEventReply OnKeyDown(FGeometry MyGeometry, FKeyEvent InKeyEvent);
+	virtual FReply NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
 
 };

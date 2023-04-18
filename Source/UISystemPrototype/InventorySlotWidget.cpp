@@ -25,4 +25,6 @@ void UInventorySlotWidget::NativeConstruct()
 		QuantitySizeBox->SetVisibility(ESlateVisibility::Hidden);
 		Icon->SetVisibility(ESlateVisibility::Hidden);
 	}
+
+	bIsFocusable = true;
 }

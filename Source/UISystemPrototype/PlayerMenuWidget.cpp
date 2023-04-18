@@ -26,6 +26,8 @@ void UPlayerMenuWidget::NativeConstruct()
 		InventoryGridWidget->SetFocus();
 		playerController->bShowMouseCursor = true;
 	}
+
+	bIsFocusable = true;
 }
 
 void UPlayerMenuWidget::NativeDestruct()
@@ -40,12 +42,26 @@ void UPlayerMenuWidget::NativeDestruct()
 
 }
 
-//FEventReply UPlayerMenuWidget::OnKeyDown(FGeometry MyGeometry, FKeyEvent InKeyEvent)
+FReply UPlayerMenuWidget::NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
+{
+	if(InKeyEvent.GetKey() == EKeys::I)
+	{
+		RemoveFromParent();
+		return FReply::Handled();
+	}
+	return FReply::Unhandled();
+}
+
+//FReply UPlayerMenuWidget::NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
 //{
-//	
-//
-//	//if(InKeyEvent.GetKey() == 
-//	return FEventReply();
+//	if (InKeyEvent.GetKey() == EKeys::I)
+//	{
+//		RemoveFromParent();
+//		return FReply::Handled();
+//	}
+//	return FReply::Unhandled();
 //}
+
+
 
 
