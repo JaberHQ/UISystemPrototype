@@ -47,11 +47,8 @@ void UInventorySystemComponent::BeginPlay()
 		}
 	}
 
-	
 	// Set inventory size
 	Content.SetNum(InventorySize);
-	Debug_Print();
-
 }
 
 
@@ -81,13 +78,14 @@ void UInventorySystemComponent::InteractionTracing()
 		bool bHit = UKismetSystemLibrary::SphereTraceSingle(GetWorld(), start, end, 15.0f, UEngineTypes::ConvertToTraceType(ECC_GameTraceChannel2),
 			false, actorsToIgnore, EDrawDebugTrace::None, hit, true);
 
+		/* If hit set target actor */
 		if(bHit)
 		{
 			if(lookAtActor != hit.GetActor())
 			{
 				lookAtActor = hit.GetActor();
 
-				// If the actor that has been hit has interactive interface
+				// Call interface function for the pickup message
 				IInteractiveInterface* interactiveInterface = Cast<IInteractiveInterface>(lookAtActor);
 				if(interactiveInterface)
 				{
@@ -174,7 +172,6 @@ void UInventorySystemComponent::Interact()
 	{
 		InteractWithActor(lookAtActor);
 	}
-
 }
 
 void UInventorySystemComponent::InteractWithActor(AActor* target)
@@ -209,13 +206,15 @@ int UInventorySystemComponent::FindSlot(FName itemID)
 			// If the max stack size has not been surpassed
 			if(Content[i].Quantity < GetMaxStackSize(itemID))
 			{
-				// Slot available
+				// Slot available is true  
 				m_foundSlot = true;
+
+				// Return array index of the slot that is avaiable 
 				return i;
 			}
 		}
 	}
-	// Slot unavailable
+	// Slot unavailable, return error index
 	m_foundSlot = false;
 	return -1;
 }
@@ -302,7 +301,6 @@ void UInventorySystemComponent::Debug_Print()
 		debugText.Append(FString::FromInt(Content[i].Quantity));
 
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, debugText);
-
 	}
 }
 

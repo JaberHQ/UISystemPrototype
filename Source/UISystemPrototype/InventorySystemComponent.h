@@ -122,7 +122,7 @@ public:
 	class UInputAction* InteractAction; // Interact Input Action 
 
 private:
-	/* Check if there is an item to interact */
+	/* Sphere trace to see if there is an item to interact within radius of the player */
 	void InteractionTracing();
 public:
 

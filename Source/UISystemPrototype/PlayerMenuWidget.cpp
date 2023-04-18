@@ -16,9 +16,10 @@ void UPlayerMenuWidget::NativeConstruct()
 	{
 		InventoryGridWidget->DisplayInventory(inventorySystemComp);
 	}
+
+	/* Set input mode to UI */
 	FInputModeUIOnly inputModeUI;
 	APlayerController* playerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-
 	if(playerController)
 	{
 		playerController->SetInputMode(inputModeUI);
@@ -32,6 +33,7 @@ void UPlayerMenuWidget::NativeConstruct()
 
 void UPlayerMenuWidget::NativeDestruct()
 {
+	/* Set input mode back to 'Game' when widget is destroyed */
 	APlayerController* playerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 	if(playerController)
 	{
@@ -39,28 +41,21 @@ void UPlayerMenuWidget::NativeDestruct()
 		playerController->SetInputMode(inputModeGame);
 		playerController->bShowMouseCursor = false;
 	}
-
 }
 
 FReply UPlayerMenuWidget::NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
 {
+	/* If 'I' key is pressed while player menu is open */
 	if(InKeyEvent.GetKey() == EKeys::I)
 	{
+		// Remove widget from parent
 		RemoveFromParent();
 		return FReply::Handled();
 	}
 	return FReply::Unhandled();
 }
 
-//FReply UPlayerMenuWidget::NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
-//{
-//	if (InKeyEvent.GetKey() == EKeys::I)
-//	{
-//		RemoveFromParent();
-//		return FReply::Handled();
-//	}
-//	return FReply::Unhandled();
-//}
+
 
 
 

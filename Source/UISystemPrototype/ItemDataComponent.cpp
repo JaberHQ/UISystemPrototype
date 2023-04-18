@@ -10,9 +10,7 @@ UItemDataComponent::UItemDataComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = false;
 
-	// ...
-	
-	// Set inital quantity
+	// Set initial quantity
 	Quantity = 1;
 }
 
@@ -23,7 +21,6 @@ void UItemDataComponent::BeginPlay()
 	Super::BeginPlay();
 
 	// ...
-
 }
 
 
@@ -68,7 +65,6 @@ void UItemDataComponent::InteractWith(AUISystemPrototypeCharacter* playerCharact
 			inventorySystem->AddToInventory(ItemID.RowName, Quantity);
 			if(inventorySystem->InventorySlotAvailable())
 			{
-				
 				GetOwner()->Destroy();
 			}
 		}

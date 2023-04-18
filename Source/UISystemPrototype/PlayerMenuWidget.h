@@ -41,9 +41,7 @@ public:
 	/* Native Destruct */
 	virtual void NativeDestruct() override;
 
-	//UFUNCTION(BlueprintCallable)
-	//virtual FEventReply NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
-
+	/* Overriden function to handle key down check */
 	virtual FReply NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
 
 };
