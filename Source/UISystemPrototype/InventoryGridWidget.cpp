@@ -35,6 +35,7 @@ void UInventoryGridWidget::DisplayInventory(UInventorySystemComponent* inventory
 			InventorySlotWidget->ItemID = InventorySystemComp->Content[i].ItemID;
 			InventorySlotWidget->Quantity = InventorySystemComp->Content[i].Quantity;
 			InventorySlotWidget->InventorySystemComp = InventorySystemComp;
+			InventorySlotWidget->ContentIndex = i;
 			GridBox->AddChildToWrapBox(InventorySlotWidget);
 		}
 	}

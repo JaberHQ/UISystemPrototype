@@ -45,6 +45,8 @@ void UPlayerMenuWidget::NativeDestruct()
 
 FReply UPlayerMenuWidget::NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
 {
+	Super::NativeOnKeyDown(InGeometry, InKeyEvent);
+
 	/* If 'I' key is pressed while player menu is open */
 	if(InKeyEvent.GetKey() == EKeys::I)
 	{

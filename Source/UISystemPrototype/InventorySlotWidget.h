@@ -11,6 +11,8 @@
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
 #include "InventorySystemComponent.h"
+#include "DragInventorySlot.h"
+#include "DragPreviewWidget.h"
 #include "InventorySlotWidget.generated.h"
 
 /*****************************************************************************
@@ -70,13 +72,29 @@ public:
 	UPROPERTY(EditAnywhere)
 	int Quantity;
 
+	UPROPERTY(EditAnywhere)
+	int ContentIndex;
+
 	UPROPERTY(EditAnywhere, Category = "DataTable")
 	UDataTable* ItemDataTable;
 
 	class UInventorySystemComponent* InventorySystemComp; 
 
+private:
+	TSubclassOf<UUserWidget> DragPreviewWidgetClass; // Reference to BP 'W_DragPreviewWidget' widget
+
+	class UDragPreviewWidget* DragPreviewWidget;
+
+	class UDragInventorySlot* DragInventorySlot;
 public:
+	/* Constructor */
+	UInventorySlotWidget(const FObjectInitializer& ObjectInitializer);
+	
 	/* Native Construct */
 	virtual void NativeConstruct() override;
+
+	virtual FReply NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+
+	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
 
 };
