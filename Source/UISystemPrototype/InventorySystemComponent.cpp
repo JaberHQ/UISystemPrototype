@@ -21,7 +21,8 @@ UInventorySystemComponent::UInventorySystemComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
-	
+	//Content.Empty();
+	Content.Init({}, InventorySize);
 }
 
 
@@ -29,9 +30,6 @@ UInventorySystemComponent::UInventorySystemComponent()
 void UInventorySystemComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// ...
-
 
 	// Get player controller
 	if(APlayerController* PlayerController = Cast<APlayerController>(GetOwner()->GetInstigatorController()))
@@ -48,8 +46,12 @@ void UInventorySystemComponent::BeginPlay()
 			EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Triggered, this, &UInventorySystemComponent::Interact);
 		}
 	}
+
+	
 	// Set inventory size
 	Content.SetNum(InventorySize);
+	Debug_Print();
+
 }
 
 
@@ -87,7 +89,7 @@ void UInventorySystemComponent::InteractionTracing()
 
 				// If the actor that has been hit has interactive interface
 				IInteractiveInterface* interactiveInterface = Cast<IInteractiveInterface>(lookAtActor);
-				if (interactiveInterface)
+				if(interactiveInterface)
 				{
 					interactiveInterface->LookAt();
 				}
@@ -125,7 +127,6 @@ void UInventorySystemComponent::AddToInventory(FName itemID, int quantity)
 				// If a new stack can be created
 				if(CreateNewStack(itemID, 1))
 				{
-					CreateNewStack(itemID, 1);
 					m_quantityRemaining--;
 				}
 				else
@@ -290,7 +291,7 @@ bool UInventorySystemComponent::InventorySlotAvailable()
 void UInventorySystemComponent::Debug_Print()
 {
 	/* Debug print inventory */
-	for(int i = 1; i<Content.Num(); i++)
+	for(int i = 0; i<Content.Num(); i++)
 	{
 		FString debugText;
 
