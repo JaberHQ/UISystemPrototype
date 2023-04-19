@@ -42,5 +42,6 @@ public:
 	/* Display inventory menu */
 	void DisplayPlayerMenu();
 
+	void ShowContainer(UInventorySystemComponent* containerInventorySystemComponent);
 
 };

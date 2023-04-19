@@ -13,6 +13,11 @@ void UPlayerHUDWidget::DisplayPlayerMenu()
 	}
 }
 
+void UPlayerHUDWidget::ShowContainer(UInventorySystemComponent* containerInventorySystemComponent)
+{
+	//CreateWidget<UInventorySystemComponent>()
+}
+
 
 UPlayerHUDWidget::UPlayerHUDWidget(const FObjectInitializer& ObjectInitializer)
 	:Super(ObjectInitializer)
