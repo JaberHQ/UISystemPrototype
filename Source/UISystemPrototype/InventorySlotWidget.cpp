@@ -20,8 +20,7 @@ void UInventorySlotWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	/* If item in slot, set as visible
-	   else keep hidden */
+	/* If item in slot, set as visible */
 	FItemStruct* item = ItemDataTable->FindRow<FItemStruct>(ItemID, ItemID.ToString());
 	if(item)
 	{
@@ -31,6 +30,8 @@ void UInventorySlotWidget::NativeConstruct()
 		QuantitySizeBox->SetVisibility(ESlateVisibility::Visible);
 		Icon->SetVisibility(ESlateVisibility::Visible);
 	}
+
+	/* Else keep hidden */
 	else
 	{
 		QuantitySizeBox->SetVisibility(ESlateVisibility::Hidden);
@@ -43,12 +44,13 @@ void UInventorySlotWidget::NativeConstruct()
 FReply UInventorySlotWidget::NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
 	Super::NativeOnPreviewMouseButtonDown(InGeometry, InMouseEvent);
+
+	/* If Item is not empty */
 	if(!ItemID.IsNone())
 	{
+		/* Detect if item is being dragged with left mouse click */
 		if(InMouseEvent.IsMouseButtonDown(EKeys::LeftMouseButton))
-		{
 			return UWidgetBlueprintLibrary::DetectDragIfPressed(InMouseEvent, this, EKeys::LeftMouseButton).NativeReply;
-		}
 	}
 	return FReply::Unhandled();
 
@@ -58,13 +60,33 @@ void UInventorySlotWidget::NativeOnDragDetected(const FGeometry& InGeometry, con
 {
 	Super::NativeOnDragDetected(InGeometry, InMouseEvent, OutOperation);
 
+	/* Create drag preview widget */
 	DragPreviewWidget = CreateWidget<UDragPreviewWidget>(this, DragPreviewWidgetClass);
 	DragPreviewWidget->ItemID = ItemID;
 	
+	/* Create Drag and Drop operation */
 	DragInventorySlot = NewObject<UDragInventorySlot>();
 	DragInventorySlot->DefaultDragVisual = DragPreviewWidget;
 	DragInventorySlot->InventorySystemComp = InventorySystemComp;
 	DragInventorySlot->ContentIndex = ContentIndex;
 
 	OutOperation = DragInventorySlot;
+}
+
+bool UInventorySlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation)
+{
+	/* Transfer inventory slots */
+	UDragInventorySlot* dragInventory = Cast<UDragInventorySlot>(InOperation);
+	if(dragInventory)
+	{
+		/* If the content index are different or the inventory systems are not the same */
+		if(dragInventory->ContentIndex != ContentIndex 
+			|| dragInventory->InventorySystemComp != InventorySystemComp)
+		{
+			// Transfer slots
+			InventorySystemComp->TransferSlots(dragInventory->ContentIndex, dragInventory->InventorySystemComp, ContentIndex);
+			return true;
+		}
+	}
+	return false;
 }

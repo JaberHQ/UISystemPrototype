@@ -33,9 +33,8 @@ class UISYSTEMPROTOTYPE_API UInventorySlotWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
-private:
-
 public:
+	/* Widgets */
 	UPROPERTY(meta = (BindWidget))
 	class USizeBox* IconSizeBox;
 
@@ -66,35 +65,44 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	class UTextBlock* QuantityText;
 
+public:
 	UPROPERTY(EditAnywhere)
-	FName ItemID;
+	FName ItemID; // Item in slots unique ID
 
 	UPROPERTY(EditAnywhere)
-	int Quantity;
-
-	UPROPERTY(EditAnywhere)
-	int ContentIndex;
+	int Quantity; // Quantity of item within the slot
 
 	UPROPERTY(EditAnywhere, Category = "DataTable")
-	UDataTable* ItemDataTable;
+	UDataTable* ItemDataTable; // Item DataTable reference
 
-	class UInventorySystemComponent* InventorySystemComp; 
+	int ContentIndex; // Index of item in array
+
+	UInventorySystemComponent* InventorySystemComp; // Reference to inventory system
 
 private:
 	TSubclassOf<UUserWidget> DragPreviewWidgetClass; // Reference to BP 'W_DragPreviewWidget' widget
 
-	class UDragPreviewWidget* DragPreviewWidget;
+	UDragPreviewWidget* DragPreviewWidget; // Reference to Drag Preview Widget
 
-	class UDragInventorySlot* DragInventorySlot;
+	UDragInventorySlot* DragInventorySlot; // Reference to Drag and Drop operation
+
 public:
 	/* Constructor */
 	UInventorySlotWidget(const FObjectInitializer& ObjectInitializer);
-	
-	/* Native Construct */
+
+/****************************** Overriden from UUserWidget *******************************/
+//
+	/* Construct */
 	virtual void NativeConstruct() override;
-
+//
+	/* On preview mouse down */
 	virtual FReply NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
-
+//
+	/* On drag detected */
 	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
-
+//
+	/* On drop */
+	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
+//
+/******************************************************************************************/
 };

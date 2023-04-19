@@ -58,10 +58,10 @@ public:
 
 /* ***************************** Interface functions ***********************************/
 //	
-	/* Events for when item is looked at by player */
+//	/* Events for when item is looked at by player */
 	virtual FText LookAt() override;
-
-	/* Takes in player reference and executes interaction events */
+//
+//	/* Takes in player reference and executes interaction events */
 	virtual void InteractWith(AUISystemPrototypeCharacter* playerCharacter) override;
 //
 /***************************************************************************************/

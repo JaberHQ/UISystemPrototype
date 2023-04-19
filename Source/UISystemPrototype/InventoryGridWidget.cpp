@@ -11,6 +11,7 @@ UInventoryGridWidget::UInventoryGridWidget(const FObjectInitializer& ObjectIniti
 	{
 		InventorySlotWidgetClass = InventorySlotWidgetClassFinder.Class;
 	}
+
 }
 
 void UInventoryGridWidget::NativeConstruct()
@@ -24,21 +25,44 @@ void UInventoryGridWidget::NativeConstruct()
 void UInventoryGridWidget::DisplayInventory(UInventorySystemComponent* inventorySystemComp)
 {
 	InventorySystemComp = inventorySystemComp;
-	GridBox->ClearChildren();
-	
+
 	/* Setup item slots */
 	if(InventorySystemComp)
 	{
-		for(int i = 0; i < InventorySystemComp->Content.Num(); i++)
-		{
-			InventorySlotWidget = CreateWidget<UInventorySlotWidget>(this, InventorySlotWidgetClass);
-			InventorySlotWidget->ItemID = InventorySystemComp->Content[i].ItemID;
-			InventorySlotWidget->Quantity = InventorySystemComp->Content[i].Quantity;
-			InventorySlotWidget->InventorySystemComp = InventorySystemComp;
-			InventorySlotWidget->ContentIndex = i;
-			GridBox->AddChildToWrapBox(InventorySlotWidget);
-		}
+		ConstructInventoryGrid(InventorySystemComp);
+
+		// Bind delegate function
+		InventorySystemComp->OnInventoryUpdated.AddUObject(this, &UInventoryGridWidget::UpdatedInventory);
 	}
+}
+
+void UInventoryGridWidget::ConstructInventoryGrid(UInventorySystemComponent* inventorySystemComp)
+{
+	// Clear all slots
+	GridBox->ClearChildren();
+
+	/* Construct grid consisting of slot widgets */
+	for(int i = 0; i < InventorySystemComp->Content.Num(); i++)
+	{
+		/* Set the correct data for each slot widget */
+		InventorySlotWidget = CreateWidget<UInventorySlotWidget>(this, InventorySlotWidgetClass);
+		InventorySlotWidget->ItemID = InventorySystemComp->Content[i].ItemID;
+		InventorySlotWidget->Quantity = InventorySystemComp->Content[i].Quantity;
+		InventorySlotWidget->InventorySystemComp = InventorySystemComp;
+		InventorySlotWidget->ContentIndex = i;
+
+		// Add to grid
+		GridBox->AddChildToWrapBox(InventorySlotWidget);
+	}
+}
+
+void UInventoryGridWidget::UpdatedInventory()
+{
+	if(InventorySystemComp)
+	{
+		ConstructInventoryGrid(InventorySystemComp);
+	}
+	
 }
 
 

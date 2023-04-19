@@ -34,10 +34,8 @@ class UISYSTEMPROTOTYPE_API IInteractiveInterface
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 	/* Message for when item is being looked at */
-	UFUNCTION()
 	virtual FText LookAt() = 0;
 
 	/* Events when item is interacted with */
-	UFUNCTION()
 	virtual void InteractWith(AUISystemPrototypeCharacter* playerCharacter) = 0;
 };

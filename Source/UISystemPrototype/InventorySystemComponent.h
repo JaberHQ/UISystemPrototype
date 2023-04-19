@@ -7,7 +7,7 @@
 #include "Engine/DataTable.h"
 #include "InventorySystemComponent.generated.h"
 
-
+DECLARE_MULTICAST_DELEGATE(FOnInventoryUpdated);
 /*****************************************************************************
  * Type: Struct
  *
@@ -27,10 +27,10 @@ struct FSlotStruct : public FTableRowBase
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Items")
-	FName ItemID;
+	FName ItemID; // Slot's unique item ID
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Items")
-	int Quantity;
+	int Quantity; // Quantity of item
 };
 
 /*****************************************************************************
@@ -52,19 +52,19 @@ struct FItemStruct : public FTableRowBase
 	GENERATED_USTRUCT_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Items")
-	FText Name;
+	FText Name; // Name of item
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Items")
-	FText Description;
+	FText Description; // Description of item
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Items")
-	UTexture2D* Thumbnail;
+	UTexture2D* Thumbnail; // Image displaying what the item is
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Items")
-	TSubclassOf<class AActor> ItemClass;
+	TSubclassOf<class AActor> ItemClass; // Actor class reference
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Items")
-	int StackSize;
+	int StackSize; // The amount you can stack of this item
 };
 
 
@@ -121,9 +121,15 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* InteractAction; // Interact Input Action 
 
+	FOnInventoryUpdated OnInventoryUpdated; // Delegate
+
 private:
 	/* Sphere trace to see if there is an item to interact within radius of the player */
 	void InteractionTracing();
+
+	/* Interact with target actor */
+	void InteractWithActor(AActor* target);
+
 public:
 
 	/* Add item to inventory */
@@ -145,12 +151,9 @@ public:
 	float GetInteractionRange();
 
 	/* Interact function called from enhanced input key */
-	UFUNCTION(BlueprintCallable, Category = "Interact")
+	//UFUNCTION(BlueprintCallable, Category = "Interact")
 	void Interact();
 
-	/* Interact with target actor */
-	void InteractWithActor(AActor* target);
-	
 	/* Find inventory slot */
 	int FindSlot(FName itemID);
 
@@ -172,4 +175,12 @@ public:
 	/* Debug print inventory system */
 	UFUNCTION(BlueprintCallable)
 	void Debug_Print();
+
+	/* Transfer item into new slot */
+	void TransferSlots(int sourceIndex, UInventorySystemComponent* sourceInventory, int destinationIndex);
+
+	/* Multicast delegate function to broadcast inventory update 
+	// See: FOnInventoryUpdate delegate */
+	UFUNCTION()
+	void MulticastUpdate(); 
 };

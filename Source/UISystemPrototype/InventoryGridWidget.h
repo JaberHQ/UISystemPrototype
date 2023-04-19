@@ -39,14 +39,13 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	class UWrapBox* GridBox;
 	
-	UPROPERTY()
-	class UInventorySlotWidget* InventorySlotWidget;
+public:
+	UInventorySlotWidget* InventorySlotWidget;
 
-	UPROPERTY()
-	class UInventorySystemComponent* InventorySystemComp;
+	UInventorySystemComponent* InventorySystemComp;
 
-	UPROPERTY()
-		TSubclassOf<UInventorySlotWidget> InventorySlotWidgetClass;
+	TSubclassOf<UInventorySlotWidget> InventorySlotWidgetClass;
+
 
 public:
 	/* Constructor */
@@ -57,4 +56,11 @@ public:
 
 	/* Display Inventory On Screen */
 	void DisplayInventory(UInventorySystemComponent* inventorySystemComp);
+
+	/* Create the amount of slots necessary for the inventory */
+	void ConstructInventoryGrid(UInventorySystemComponent* inventorySystemComp);
+
+	/* FOnInventoryUpdate delegate Function */
+	UFUNCTION()
+	void UpdatedInventory();
 };

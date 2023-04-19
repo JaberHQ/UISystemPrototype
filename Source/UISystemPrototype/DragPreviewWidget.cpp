@@ -14,7 +14,3 @@ void UDragPreviewWidget::NativeConstruct()
 	}
 }
 
-UDragPreviewWidget::UDragPreviewWidget(const FObjectInitializer& ObjectInitializer)
-	:Super(ObjectInitializer)
-{
-}

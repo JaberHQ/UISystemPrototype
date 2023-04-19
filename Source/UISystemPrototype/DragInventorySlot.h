@@ -16,9 +16,9 @@ class UISYSTEMPROTOTYPE_API UDragInventorySlot : public UDragDropOperation
 	GENERATED_BODY()
 
 public:
-	UInventorySystemComponent* InventorySystemComp;
+	UInventorySystemComponent* InventorySystemComp; // Reference to inventory system
 
-	int ContentIndex;
+	int ContentIndex; // Index of slot
 
 
 };

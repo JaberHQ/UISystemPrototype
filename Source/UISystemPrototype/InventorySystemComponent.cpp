@@ -304,5 +304,47 @@ void UInventorySystemComponent::Debug_Print()
 	}
 }
 
+void UInventorySystemComponent::TransferSlots(int sourceIndex, UInventorySystemComponent* sourceInventory, int destinationIndex)
+{
+	// Create temporary array to avoid data loss
+	TArray<FSlotStruct> tempSourceContent = sourceInventory->Content;
+
+	// Set local slot content to specific slot
+	FSlotStruct slotContent = tempSourceContent[sourceIndex];
+
+	/* If index is blank, add inventory item */
+	if(destinationIndex < 0)
+	{
+
+	}
+	else
+	{
+		TArray<FSlotStruct> tempContent = Content;
+		
+		// Stack
+		if(slotContent.ItemID == tempContent[destinationIndex].ItemID)
+		{
+			
+		}
+		else
+		{
+			/* Transfer slot */
+			sourceInventory->Content[sourceIndex] = tempContent[destinationIndex];
+			Content[destinationIndex] = slotContent;
+
+			/* Update grid */
+			MulticastUpdate();
+			sourceInventory->MulticastUpdate();
+		}
+	}
+	
+
+}
+
+void UInventorySystemComponent::MulticastUpdate() 
+{
+	OnInventoryUpdated.Broadcast();
+}
+
 
 

@@ -10,9 +10,19 @@
 #include "InventorySystemComponent.h"
 #include "DragPreviewWidget.generated.h"
 
-/**
- * 
- */
+/*****************************************************************************
+ * Type: Class
+ *
+ * Name: UDragPreviewWidget
+ *
+ * Author: Jaber A
+ *
+ * Purpose: Drag Preview Widget 
+ *
+ * Change Log:
+ * Date          Initials    Version     Comments
+ * 19/04/2023    JA          V1.0        Created widget for dragging item
+*****************************************************************************/
 UCLASS()
 class UISYSTEMPROTOTYPE_API UDragPreviewWidget : public UUserWidget
 {
@@ -28,15 +38,13 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	class UImage* Image;
 
+public:
 	UPROPERTY(EditAnywhere, Category = "DataTable")
-	UDataTable* ItemDataTable;
+	UDataTable* ItemDataTable; // Reference to itemSlot DataTable
 
-	FName ItemID;
+	FName ItemID; // Item ID of slot
 
 public:
 	/* Native Construct */
 	virtual void NativeConstruct() override;
-
-	UDragPreviewWidget(const FObjectInitializer& ObjectInitializer);
-
 };

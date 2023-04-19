@@ -30,8 +30,8 @@ private:
 	void InventoryActionPressed();
 
 protected:
+	/* Begin play */
 	virtual void BeginPlay() override;
-
 
 public:
 	/** Inventory Mapping Context **/
@@ -42,11 +42,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* InventoryAction;
 
-	UPROPERTY()
 	TSubclassOf<UPlayerHUDWidget> PlayerHudWidgetClass; // Reference to BP 'W_PlayerHUD' class
 
-	UPROPERTY()
-	class UPlayerHUDWidget* PlayerHUDWidget; // Reference to playerHUD widget 
+	UPlayerHUDWidget* PlayerHUDWidget; // Reference to playerHUD widget 
 
 public:
 	/* Constructor */

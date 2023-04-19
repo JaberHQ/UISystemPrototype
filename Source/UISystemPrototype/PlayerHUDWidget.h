@@ -30,11 +30,10 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	class UCanvasPanel* CanvasPanel;
 
-	UPROPERTY()
+public:
 	TSubclassOf<UUserWidget> PlayerMenuWidgetClass; // Reference to BP 'W_PlayerMenu' widget
 
-	UPROPERTY()
-	class UUserWidget* PlayerMenuWidget;
+	UUserWidget* PlayerMenuWidget; // Player Menu Widget
 
 public:
 	/* Constructor */
