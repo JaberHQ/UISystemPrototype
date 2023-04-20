@@ -8,6 +8,8 @@
 
 void UContainerInventoryWidget::NativeConstruct()
 {
+	Super::NativeConstruct();
+
 	ACharacter* player = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 	UInventorySystemComponent* inventorySystemComponent = player->FindComponentByClass<UInventorySystemComponent>();
 
@@ -20,7 +22,5 @@ void UContainerInventoryWidget::NativeConstruct()
 	{
 		ContainerInventory->DisplayInventory(ContainerInventorySystemComponent);
 	}
-
-	
 
 }

@@ -75,6 +75,8 @@ void UInventorySlotWidget::NativeOnDragDetected(const FGeometry& InGeometry, con
 
 bool UInventorySlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation)
 {
+	Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation);
+
 	/* Transfer inventory slots */
 	UDragInventorySlot* dragInventory = Cast<UDragInventorySlot>(InOperation);
 	if(dragInventory)

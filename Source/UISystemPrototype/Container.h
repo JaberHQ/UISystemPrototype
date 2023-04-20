@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Engine/StaticMesh.h"
 #include "InventorySystemComponent.h"
 #include "InteractiveInterface.h"
 #include "ContainerInventoryWidget.h"
@@ -28,13 +27,12 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 public:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
-	class UStaticMesh* Mesh;
+	/*UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
+	class UStaticMesh* Mesh;*/
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Inventory, meta = (AllowPrivateAccess = "true"))
 	class UInventorySystemComponent* InventorySystemComponent;
 
-	TSubclassOf<UContainerInventoryWidget> UContainerInventoryWidgetClass;
 
 
 public:

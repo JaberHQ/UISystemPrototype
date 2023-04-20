@@ -176,23 +176,43 @@ void UInventorySystemComponent::Interact()
 
 void UInventorySystemComponent::InteractWithActor(AActor* target)
 {
+	// Get player
+	AUISystemPrototypeCharacter* playerCharacter = Cast<AUISystemPrototypeCharacter>(GetOwner());
 	// Get target actors data component
 	UItemDataComponent* ItemDataComponent = target->FindComponentByClass<UItemDataComponent>();
-	if(ItemDataComponent)
+
+	// If the target has interface applied
+	IInteractiveInterface* interactiveInterface = Cast<IInteractiveInterface>(ItemDataComponent);
+
+	if(playerCharacter && ItemDataComponent && interactiveInterface)
 	{
-		// If the target has interface applied
-		IInteractiveInterface* interactiveInterface = Cast<IInteractiveInterface>(ItemDataComponent);
-		if(interactiveInterface)
+		
+
+		// Interact with target actor and player
+		if(interactiveInterface && ItemDataComponent)
+			interactiveInterface->InteractWith(playerCharacter);
+	}
+	else
+	{
+		APlayerController* playerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+		if(playerController && interactiveInterface)
 		{
-			// Get player
-			AUISystemPrototypeCharacter* playerCharacter = Cast<AUISystemPrototypeCharacter>(GetOwner());
-			if(playerCharacter)
-			{
-				// Interact with target actor and player
-				interactiveInterface->InteractWith(playerCharacter);
-			}
+			target->SetOwner(playerController);
+			OnInteract(target, playerCharacter);
 		}
 	}
+}
+
+void UInventorySystemComponent::OnInteract(AActor* target, AActor* Interactor)
+{
+	AUISystemPrototypeCharacter* playerCharacter = Cast<AUISystemPrototypeCharacter>(Interactor);
+	if(playerCharacter)
+	{
+		// If the target has interface applied
+		IInteractiveInterface* interactiveInterface = Cast<IInteractiveInterface>(target);
+		interactiveInterface->InteractWith(playerCharacter);
+	}
+	
 }
 
 int UInventorySystemComponent::FindSlot(FName itemID)
@@ -345,6 +365,8 @@ void UInventorySystemComponent::MulticastUpdate()
 {
 	OnInventoryUpdated.Broadcast();
 }
+
+
 
 
 
