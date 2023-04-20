@@ -178,29 +178,37 @@ void UInventorySystemComponent::InteractWithActor(AActor* target)
 {
 	// Get player
 	AUISystemPrototypeCharacter* playerCharacter = Cast<AUISystemPrototypeCharacter>(GetOwner());
-	// Get target actors data component
-	UItemDataComponent* ItemDataComponent = target->FindComponentByClass<UItemDataComponent>();
 
-	// If the target has interface applied
-	IInteractiveInterface* interactiveInterface = Cast<IInteractiveInterface>(ItemDataComponent);
-
-	if(playerCharacter && ItemDataComponent && interactiveInterface)
+	if(playerCharacter)
 	{
-		
+		// Get target actors data component
+		UItemDataComponent* ItemDataComponent = target->FindComponentByClass<UItemDataComponent>();
 
-		// Interact with target actor and player
-		if(interactiveInterface && ItemDataComponent)
-			interactiveInterface->InteractWith(playerCharacter);
-	}
-	else
-	{
-		APlayerController* playerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-		if(playerController && interactiveInterface)
+		if(ItemDataComponent)
 		{
-			target->SetOwner(playerController);
-			OnInteract(target, playerCharacter);
+			// If the target has interface applied
+			IInteractiveInterface* interactiveInterface = Cast<IInteractiveInterface>(ItemDataComponent);
+
+			if(interactiveInterface)
+			{
+				// Interact with target actor and player
+				if(interactiveInterface && ItemDataComponent)
+					interactiveInterface->InteractWith(playerCharacter);
+			}
+		}
+
+		else
+		{
+			APlayerController* playerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+			if(playerController)
+			{
+				target->SetOwner(playerController);
+				OnInteract(target, playerCharacter);
+			}
 		}
 	}
+
+	
 }
 
 void UInventorySystemComponent::OnInteract(AActor* target, AActor* Interactor)

@@ -33,11 +33,14 @@ void UPlayerHUDWidget::DisplayPlayerMenu()
 
 void UPlayerHUDWidget::ShowContainer(UInventorySystemComponent* containerInventorySystemComponent)
 {
-	ContainerInventoryWidget = CreateWidget<UContainerInventoryWidget>(this, ContainerInventoryWidgetClass);
-	ContainerInventoryWidget->ContainerInventorySystemComponent = containerInventorySystemComponent;
+	if(ContainerInventoryWidgetClass)
+	{
+		ContainerInventoryWidget = CreateWidget<UContainerInventoryWidget>(this, ContainerInventoryWidgetClass);
+		ContainerInventoryWidget->ContainerInventorySystemComponent = containerInventorySystemComponent;
 
-	PlayerMenuWidget = ContainerInventoryWidget;
-	PlayerMenuWidget->AddToViewport();
+		//PlayerMenuWidget = ContainerInventoryWidget;
+		//PlayerMenuWidget->AddToViewport();
+	}
 }
 
 
