@@ -38,8 +38,8 @@ void UPlayerHUDWidget::ShowContainer(UInventorySystemComponent* containerInvento
 		ContainerInventoryWidget = CreateWidget<UContainerInventoryWidget>(this, ContainerInventoryWidgetClass);
 		ContainerInventoryWidget->ContainerInventorySystemComponent = containerInventorySystemComponent;
 
-		//PlayerMenuWidget = ContainerInventoryWidget;
-		//PlayerMenuWidget->AddToViewport();
+		PlayerMenuWidget = ContainerInventoryWidget;
+		PlayerMenuWidget->AddToViewport();
 	}
 }
 

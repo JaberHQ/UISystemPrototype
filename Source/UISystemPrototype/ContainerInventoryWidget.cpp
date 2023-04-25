@@ -13,6 +13,10 @@ void UContainerInventoryWidget::NativeConstruct()
 	ACharacter* player = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 	UInventorySystemComponent* inventorySystemComponent = player->FindComponentByClass<UInventorySystemComponent>();
 
+	APlayerController* playerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+
+	
+
 	if(inventorySystemComponent)
 	{
 		PlayerInventory->DisplayInventory(inventorySystemComponent);
@@ -20,7 +24,42 @@ void UContainerInventoryWidget::NativeConstruct()
 
 	if(ContainerInventorySystemComponent)
 	{
+		ContainerInventory->SetFocus();
 		ContainerInventory->DisplayInventory(ContainerInventorySystemComponent);
 	}
 
+	if(playerController)
+	{
+		FInputModeUIOnly inputModeUI;
+		playerController->SetInputMode(inputModeUI);
+		playerController->SetShowMouseCursor(true);
+	}
+}
+
+void UContainerInventoryWidget::NativeDestruct()
+{
+	Super::NativeDestruct();
+
+	APlayerController* playerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+
+	if(playerController)
+	{
+		FInputModeGameOnly inputModeGame;
+		playerController->SetInputMode(inputModeGame);
+		playerController->SetShowMouseCursor(false);
+	}
+}
+
+FReply UContainerInventoryWidget::NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
+{
+	Super::NativeOnKeyDown(InGeometry, InKeyEvent);
+
+	/* If 'I' or 'E' key is pressed while inventory is open */
+	if(InKeyEvent.GetKey() == EKeys::E || InKeyEvent.GetKey() == EKeys::I)
+	{
+		// Remove widget from parent
+		RemoveFromParent();
+		return FReply::Handled();
+	}
+	return FReply::Unhandled();
 }

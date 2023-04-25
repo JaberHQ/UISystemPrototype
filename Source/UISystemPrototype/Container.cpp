@@ -41,7 +41,7 @@ void AContainer::InteractWith(AUISystemPrototypeCharacter* playerCharacter)
 	APlayerControllerFPS* playerController = Cast<APlayerControllerFPS>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	if(playerController)
 	{
-		playerController->PlayerHUDWidget;
+		playerController->PlayerHUDWidget->ShowContainer(InventorySystemComponent);
 	}
 }
 

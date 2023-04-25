@@ -207,8 +207,6 @@ void UInventorySystemComponent::InteractWithActor(AActor* target)
 			}
 		}
 	}
-
-	
 }
 
 void UInventorySystemComponent::OnInteract(AActor* target, AActor* Interactor)
@@ -218,9 +216,11 @@ void UInventorySystemComponent::OnInteract(AActor* target, AActor* Interactor)
 	{
 		// If the target has interface applied
 		IInteractiveInterface* interactiveInterface = Cast<IInteractiveInterface>(target);
-		interactiveInterface->InteractWith(playerCharacter);
+		if(interactiveInterface)
+		{
+			interactiveInterface->InteractWith(playerCharacter);
+		}
 	}
-	
 }
 
 int UInventorySystemComponent::FindSlot(FName itemID)
