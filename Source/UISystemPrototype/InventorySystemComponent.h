@@ -121,6 +121,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* InteractAction; // Interact Input Action 
 
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	UDataTable* ItemDataTable;
+
+	TSubclassOf<UDataTable> ItemDataTableClass;
+
 	FOnInventoryUpdated OnInventoryUpdated; // Delegate
 
 private:

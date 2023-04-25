@@ -7,6 +7,7 @@
 #include "InteractiveInterface.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "ItemDataComponent.h"
 
 // Sets default values for this component's properties
@@ -20,8 +21,14 @@ UInventorySystemComponent::UInventorySystemComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-	// ...
-	//Content.Empty();
+
+	static ConstructorHelpers::FClassFinder<UDataTable> ItemDataTableClassFinder(TEXT("/Game/InventorySystem/DataTable/ItemData"));
+	ItemDataTableClass = ItemDataTableClassFinder.Class;
+	if(ItemDataTableClass)
+		ItemDataTable = Cast<UDataTable>(ItemDataTableClass);
+
+
+	// Initialise Array
 	Content.Init({}, InventorySize);
 }
 
@@ -261,6 +268,12 @@ int UInventorySystemComponent::GetMaxStackSize(FName itemID)
 			return item->StackSize;
 		}
 	}
+	else
+	{
+		FItemStruct* item = ItemDataTable->FindRow<FItemStruct>(itemID, itemID.ToString());
+		if(item)
+			return item->StackSize;
+	}
 	return -1;
 }
 
@@ -352,7 +365,29 @@ void UInventorySystemComponent::TransferSlots(int sourceIndex, UInventorySystemC
 		// Stack
 		if(slotContent.ItemID == tempContent[destinationIndex].ItemID)
 		{
+			FSlotStruct tempSlot;
+			int stack = slotContent.Quantity + tempContent[destinationIndex].Quantity;
+			int maxStackSize = GetMaxStackSize(slotContent.ItemID);
+			int stackSize = stack - maxStackSize;
+			int clampStackSize = UKismetMathLibrary::ClampInt64(stackSize, 0, maxStackSize);
+
+			if(clampStackSize > 0)
+			{
+				tempSlot.ItemID = slotContent.ItemID;
+			}
+			else
+			{
+			}
 			
+			sourceInventory->Content[sourceIndex].ItemID = tempSlot.ItemID;
+			sourceInventory->Content[sourceIndex].Quantity = clampStackSize;
+
+			Content[destinationIndex].ItemID = slotContent.ItemID;
+
+			int clampQuantity = UKismetMathLibrary::ClampInt64(stack, 0, maxStackSize);
+			Content[destinationIndex].Quantity = clampQuantity;
+			MulticastUpdate();
+			sourceInventory->MulticastUpdate();
 		}
 		else
 		{
