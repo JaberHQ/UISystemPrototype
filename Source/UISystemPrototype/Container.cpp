@@ -10,7 +10,7 @@ AContainer::AContainer()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
-	Mesh = CreateDefaultSubobject<UStaticMesh>(TEXT("Mesh"));
+	//Mesh = CreateDefaultSubobject<UStaticMesh>(TEXT("Mesh"));
 
 	InventorySystemComponent = CreateDefaultSubobject<UInventorySystemComponent>(TEXT("InventorySystem"));
 	InventorySystemComponent->SetInventorySize(32);
@@ -41,7 +41,7 @@ void AContainer::InteractWith(AUISystemPrototypeCharacter* playerCharacter)
 	APlayerControllerFPS* playerController = Cast<APlayerControllerFPS>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	if(playerController)
 	{
-		playerController->PlayerHUDWidget;
+		playerController->PlayerHUDWidget->ShowContainer(InventorySystemComponent);
 	}
 }
 

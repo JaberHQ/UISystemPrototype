@@ -176,21 +176,49 @@ void UInventorySystemComponent::Interact()
 
 void UInventorySystemComponent::InteractWithActor(AActor* target)
 {
-	// Get target actors data component
-	UItemDataComponent* ItemDataComponent = target->FindComponentByClass<UItemDataComponent>();
-	if(ItemDataComponent)
+	// Get player
+	AUISystemPrototypeCharacter* playerCharacter = Cast<AUISystemPrototypeCharacter>(GetOwner());
+
+	if(playerCharacter)
 	{
-		// If the target has interface applied
-		IInteractiveInterface* interactiveInterface = Cast<IInteractiveInterface>(ItemDataComponent);
-		if(interactiveInterface)
+		// Get target actors data component
+		UItemDataComponent* ItemDataComponent = target->FindComponentByClass<UItemDataComponent>();
+
+		if(ItemDataComponent)
 		{
-			// Get player
-			AUISystemPrototypeCharacter* playerCharacter = Cast<AUISystemPrototypeCharacter>(GetOwner());
-			if(playerCharacter)
+			// If the target has interface applied
+			IInteractiveInterface* interactiveInterface = Cast<IInteractiveInterface>(ItemDataComponent);
+
+			if(interactiveInterface)
 			{
 				// Interact with target actor and player
-				interactiveInterface->InteractWith(playerCharacter);
+				if(interactiveInterface && ItemDataComponent)
+					interactiveInterface->InteractWith(playerCharacter);
 			}
+		}
+
+		else
+		{
+			APlayerController* playerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+			if(playerController)
+			{
+				target->SetOwner(playerController);
+				OnInteract(target, playerCharacter);
+			}
+		}
+	}
+}
+
+void UInventorySystemComponent::OnInteract(AActor* target, AActor* Interactor)
+{
+	AUISystemPrototypeCharacter* playerCharacter = Cast<AUISystemPrototypeCharacter>(Interactor);
+	if(playerCharacter)
+	{
+		// If the target has interface applied
+		IInteractiveInterface* interactiveInterface = Cast<IInteractiveInterface>(target);
+		if(interactiveInterface)
+		{
+			interactiveInterface->InteractWith(playerCharacter);
 		}
 	}
 }
@@ -345,6 +373,8 @@ void UInventorySystemComponent::MulticastUpdate()
 {
 	OnInventoryUpdated.Broadcast();
 }
+
+
 
 
 

@@ -33,6 +33,8 @@ void UPlayerMenuWidget::NativeConstruct()
 
 void UPlayerMenuWidget::NativeDestruct()
 {
+	Super::NativeDestruct();
+
 	/* Set input mode back to 'Game' when widget is destroyed */
 	APlayerController* playerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 	if(playerController)

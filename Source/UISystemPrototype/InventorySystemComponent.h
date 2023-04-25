@@ -183,4 +183,6 @@ public:
 	// See: FOnInventoryUpdate delegate */
 	UFUNCTION()
 	void MulticastUpdate(); 
+
+	void OnInteract(AActor* target, AActor* Interactor);
 };

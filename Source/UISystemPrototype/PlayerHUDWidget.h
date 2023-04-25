@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Components/CanvasPanel.h"
 #include "PlayerMenuWidget.h"
+#include "ContainerInventoryWidget.h"
 #include "PlayerHUDWidget.generated.h"
 
 /*****************************************************************************
@@ -34,6 +35,10 @@ public:
 	TSubclassOf<UUserWidget> PlayerMenuWidgetClass; // Reference to BP 'W_PlayerMenu' widget
 
 	UUserWidget* PlayerMenuWidget; // Player Menu Widget
+
+	TSubclassOf<UContainerInventoryWidget> ContainerInventoryWidgetClass;
+	
+	UContainerInventoryWidget* ContainerInventoryWidget;
 
 public:
 	/* Constructor */
