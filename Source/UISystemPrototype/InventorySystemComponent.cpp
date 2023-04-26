@@ -353,23 +353,10 @@ int UInventorySystemComponent::FindSlot(FName itemID)
 
 int UInventorySystemComponent::GetMaxStackSize(FName itemID)
 {
-	// Get item data 
-	UItemDataComponent* ItemDataComponent = lookAtActor->FindComponentByClass<UItemDataComponent>();
-	if(ItemDataComponent)
+	FItemStruct* item = ItemDataTable->FindRow<FItemStruct>(itemID, itemID.ToString());
+	if(item)
 	{
-		// Loop through data table
-		FItemStruct* item = ItemDataComponent->ItemID.GetRow<FItemStruct>(itemID.ToString());
-		if(item)
-		{
-			// Return the stacksize of the item
-			return item->StackSize;
-		}
-	}
-	else
-	{
-		FItemStruct* item = ItemDataTable->FindRow<FItemStruct>(itemID, itemID.ToString());
-		if(item)
-			return item->StackSize;
+		return item->StackSize;
 	}
 	return -1;
 }
