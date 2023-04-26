@@ -29,6 +29,10 @@ class UISYSTEMPROTOTYPE_API UDragPreviewWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
+	/* Native Construct */
+	virtual void NativeConstruct() override;
+
+public:
 	UPROPERTY(meta = (BindWidget))
 	class USizeBox* SizeBox;
 
@@ -40,11 +44,7 @@ public:
 
 public:
 	UPROPERTY(EditAnywhere, Category = "DataTable")
-	UDataTable* ItemDataTable; // Reference to itemSlot DataTable
+	UDataTable* ItemDataTable; // Object reference to itemSlot DataTable
 
 	FName ItemID; // Item ID of slot
-
-public:
-	/* Native Construct */
-	virtual void NativeConstruct() override;
 };

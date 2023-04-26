@@ -18,31 +18,24 @@ public:
 	// Sets default values for this actor's properties
 	AContainer();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+/* Interface functions */
+public:
+	/* Events for when item is looked at by player */
+	virtual FText LookAt() override;
+
+	/* Takes in player reference and executes interaction events */
+	virtual void InteractWith(AUISystemPrototypeCharacter* playerCharacter) override;
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 public:
-	/*UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
-	class UStaticMesh* Mesh;*/
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Inventory, meta = (AllowPrivateAccess = "true"))
 	class UInventorySystemComponent* InventorySystemComponent;
 
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
 
-
-public:
-/******************************* Interface functions ***********************************/
-//	
-	/* Events for when item is looked at by player */
-	virtual FText LookAt() override;
-//
-	/* Takes in player reference and executes interaction events */
-	virtual void InteractWith(AUISystemPrototypeCharacter* playerCharacter) override;
-//
-/**************************************************************************************/
 };

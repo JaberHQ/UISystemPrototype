@@ -28,24 +28,6 @@ UCLASS()
 class UISYSTEMPROTOTYPE_API UInventoryGridWidget : public UUserWidget
 {
 	GENERATED_BODY()
-	
-public:
-	UPROPERTY(meta = (BindWidget))
-	class UBorder* Border;
-
-	UPROPERTY(meta = (BindWidget))
-	class UScrollBox* ScrollBox;
-
-	UPROPERTY(meta = (BindWidget))
-	class UWrapBox* GridBox;
-	
-public:
-	UInventorySlotWidget* InventorySlotWidget;
-
-	UInventorySystemComponent* InventorySystemComp;
-
-	TSubclassOf<UInventorySlotWidget> InventorySlotWidgetClass;
-
 
 public:
 	/* Constructor */
@@ -60,7 +42,27 @@ public:
 	/* Create the amount of slots necessary for the inventory */
 	void ConstructInventoryGrid(UInventorySystemComponent* inventorySystemComp);
 
+public:
 	/* FOnInventoryUpdate delegate Function */
 	UFUNCTION()
 	void UpdatedInventory();
+
+public:
+	UPROPERTY(meta = (BindWidget))
+	class UBorder* Border;
+
+	UPROPERTY(meta = (BindWidget))
+	class UScrollBox* ScrollBox;
+
+	UPROPERTY(meta = (BindWidget))
+	class UWrapBox* GridBox;
+	
+public:
+	UInventorySystemComponent* InventorySystemComp;
+
+
+private:
+	TSubclassOf<UInventorySlotWidget> InventorySlotWidgetClass; // Class reference to BP_InventorySlot
+	UInventorySlotWidget* InventorySlotWidget; // Object reference for inventory slot
+
 };

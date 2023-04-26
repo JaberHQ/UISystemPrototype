@@ -9,14 +9,36 @@
 #include "InventorySystemComponent.h"
 #include "ContainerInventoryWidget.generated.h"
 
-/**
- * 
- */
+/*****************************************************************************
+ * Type: Class
+ *
+ * Name: UContainerInventoryWidget
+ *
+ * Author: Jaber A
+ *
+ * Purpose: Widget for the Container inventory Menu
+ *
+ * Change Log:
+ * Date          Initials    Version     Comments
+ * 26/04/2023    JA          V1.0        Created Widget
+*****************************************************************************/
 UCLASS()
 class UISYSTEMPROTOTYPE_API UContainerInventoryWidget : public UUserWidget
 {
 	GENERATED_BODY()
-	
+
+/* Overriden from UUserWidget*/
+public:
+	/* Construct */
+	virtual void NativeConstruct() override;
+
+	/* Destruct */
+	virtual void NativeDestruct() override;
+
+	/* On Key Down - checks if player has pressed a certain keyboard input */
+	virtual FReply NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
+
+/* UMG Components */
 public:
 	UPROPERTY(meta = (BindWidget))
 	class UCanvasPanel* CanvasPanel;
@@ -30,10 +52,6 @@ public:
 public:
 	UInventorySystemComponent* ContainerInventorySystemComponent;
 
-public:
-	virtual void NativeConstruct() override;
-	virtual void NativeDestruct() override;
 
-	virtual FReply NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
 
 };

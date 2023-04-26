@@ -22,10 +22,11 @@ UInventorySystemComponent::UInventorySystemComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 
 
-	/*static ConstructorHelpers::FClassFinder<UDataTable> ItemDataTableClassFinder(TEXT("/Game/InventorySystem/DataTable/ItemData"));
-	ItemDataTableClass = ItemDataTableClassFinder.Class;
-	if(ItemDataTableClass)
-		ItemDataTable = Cast<UDataTable>(ItemDataTableClass);*/
+	static ConstructorHelpers::FClassFinder<UDisplayMessageWidget> DisplayMessageClassFinder(TEXT("/Game/InventorySystem/Widgets/W_DisplayMessage"));
+	if(DisplayMessageClassFinder.Class)
+	{
+		DisplayMessageWidgetClass = DisplayMessageClassFinder.Class;
+	}
 
 
 	// Initialise Array
@@ -56,6 +57,9 @@ void UInventorySystemComponent::BeginPlay()
 
 	// Set inventory size
 	Content.SetNum(InventorySize);
+
+	DisplayMessage = CreateWidget<UDisplayMessageWidget>(GetWorld(), DisplayMessageWidgetClass);
+	DisplayMessage->AddToViewport();
 }
 
 
@@ -65,6 +69,7 @@ void UInventorySystemComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	InteractionTracing();
+
 }
 
 void UInventorySystemComponent::InteractionTracing()
@@ -96,7 +101,8 @@ void UInventorySystemComponent::InteractionTracing()
 				IInteractiveInterface* interactiveInterface = Cast<IInteractiveInterface>(lookAtActor);
 				if(interactiveInterface)
 				{
-					interactiveInterface->LookAt();
+					FText message = interactiveInterface->LookAt();
+					DisplayMessage->ShowMessage(message);
 				}
 			}
 		}
@@ -104,6 +110,9 @@ void UInventorySystemComponent::InteractionTracing()
 		{
 			// Set target actor as null
 			lookAtActor = nullptr;
+			FText message;
+			message.GetEmpty();
+			DisplayMessage->ShowMessage(message);
 		}
 	}
 }
@@ -294,6 +303,28 @@ FVector UInventorySystemComponent::GetDropLocation()
 	queryParams.AddIgnoredActor(GetOwner());
 	bool bHit = GetWorld()->LineTraceSingleByChannel(hit, start, end, ECollisionChannel::ECC_Visibility, queryParams);
 	return hit.Location;
+}
+
+void UInventorySystemComponent::ConsumeItem(int index)
+{
+	TArray<FSlotStruct> tempContent = Content;
+	FName tempItemID = tempContent[index].ItemID;
+	int tempItemQuantity = tempContent[index].Quantity;
+	
+	RemoveFromInventory(index, false, true);
+	SpawnConsumeEffect(tempItemID);
+
+	MulticastUpdate();
+}
+
+void UInventorySystemComponent::SpawnConsumeEffect(FName itemID)
+{
+	ItemClass = GetItemData(itemID).ItemEffect;
+
+	// Spawn actor
+	FTransform spawnTransform;
+	spawnTransform.SetLocation(GetDropLocation());
+	GetWorld()->SpawnActor<AActor>(ItemClass, spawnTransform);
 }
 
 int UInventorySystemComponent::FindSlot(FName itemID)

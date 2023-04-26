@@ -37,7 +37,6 @@ FText ATestItemInteraction::LookAt()
 	{
 		FText name = item->Name;
 		FText lookAtText = FText::Format(FText::FromString("Pickup {item}"), name);
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, lookAtText.ToString());
 		return lookAtText;
 	}
 	return FText();

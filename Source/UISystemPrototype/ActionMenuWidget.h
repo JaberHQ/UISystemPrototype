@@ -30,6 +30,7 @@ class UISYSTEMPROTOTYPE_API UActionMenuWidget : public UUserWidget
 {
 	GENERATED_BODY()
 	
+/* Overriden from UUserWidget */
 public:
 	/* Construct */
 	virtual void NativeConstruct() override;
@@ -50,6 +51,7 @@ public:
 	UFUNCTION()
 	void OnDropAllButtonClicked();
 
+/* UMG Components */
 public:
 	UPROPERTY(meta = (BindWidget))
 	class UCanvasPanel* Canvas; 

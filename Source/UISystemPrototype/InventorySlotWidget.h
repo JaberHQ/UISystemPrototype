@@ -35,6 +35,24 @@ class UISYSTEMPROTOTYPE_API UInventorySlotWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
+	/* Constructor */
+	UInventorySlotWidget(const FObjectInitializer& ObjectInitializer);
+
+/* Overriden from UUserWidget */ 
+public:
+	/* Construct */
+	virtual void NativeConstruct() override;
+
+	/* On preview mouse down */
+	virtual FReply NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+	
+	/* On drag detected */
+	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
+	
+	/* On drop */
+	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
+
+public:
 	/* Widgets */
 	UPROPERTY(meta = (BindWidget))
 	class USizeBox* IconSizeBox;
@@ -76,37 +94,19 @@ public:
 	UPROPERTY(EditAnywhere, Category = "DataTable")
 	UDataTable* ItemDataTable; // Item DataTable reference
 
+public:
 	int ContentIndex; // Index of item in array
 
 	UInventorySystemComponent* InventorySystemComp; // Reference to inventory system
 
-	UActionMenuWidget* ActionMenu;
-
 private:
-	TSubclassOf<UUserWidget> DragPreviewWidgetClass; // Reference to BP 'W_DragPreviewWidget' widget
+	TSubclassOf<UUserWidget> DragPreviewWidgetClass; // Class reference to BP 'W_DragPreviewWidget' widget
 
-	TSubclassOf<UUserWidget> ActionMenuWidgetClass; // Reference to BP 'W_ActionMenu' widget
+	TSubclassOf<UUserWidget> ActionMenuWidgetClass; // Class reference to BP 'W_ActionMenu' widget
 
+	UActionMenuWidget* ActionMenu; // Object reference for action menu
 
 	UDragPreviewWidget* DragPreviewWidget; // Reference to Drag Preview Widget
 
 	UDragInventorySlot* DragInventorySlot; // Reference to Drag and Drop operation
-
-public:
-	/* Constructor */
-	UInventorySlotWidget(const FObjectInitializer& ObjectInitializer);
-
-/* Overriden from UUserWidget */ 
-public:
-	/* Construct */
-	virtual void NativeConstruct() override;
-
-	/* On preview mouse down */
-	virtual FReply NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
-	
-	/* On drag detected */
-	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
-	
-	/* On drop */
-	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 };

@@ -30,7 +30,7 @@ void UActionMenuWidget::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 
 void UActionMenuWidget::OnUseButtonClicked()
 {
-	InventorySystemComponent->RemoveFromInventory(Index, false, true);
+	InventorySystemComponent->ConsumeItem(Index);
 }
 
 void UActionMenuWidget::OnDropButtonClicked()

@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Engine/DataTable.h"
+#include "DisplayMessageWidget.h"
+#include "ItemFX.h"
 #include "InventorySystemComponent.generated.h"
 
 DECLARE_MULTICAST_DELEGATE(FOnInventoryUpdated);
@@ -65,6 +67,9 @@ struct FItemStruct : public FTableRowBase
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Items")
 	int StackSize; // The amount you can stack of this item
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Items")
+	TSubclassOf <class AItemFX> ItemEffect;
 };
 
 
@@ -95,8 +100,8 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 public:
-	/* Multicast delegate function to broadcast inventory update
-	// See: FOnInventoryUpdate delegate */
+	/** Multicast delegate function to broadcast inventory update *
+	 * See: FOnInventoryUpdate delegate */
 	UFUNCTION()
 	void MulticastUpdate();
 
@@ -108,13 +113,13 @@ public:
 	/* Add item to inventory */
 	void AddToInventory(FName itemID, int quantity);
 
-	/* Remove an item from inventory*/
+	/* Remove an item from inventory */
 	void RemoveFromInventory(int index, bool removeWholeStack, bool isConsumed);
 
 	/* Set new inventory size */
 	void SetInventorySize(int newInventorySize);
 
-	/* Get the current inventory size */
+	/* Returns the current inventory size */
 	int GetInventorySize();
 
 	/* Set the interaction range of interactable objects */
@@ -126,7 +131,8 @@ public:
 	/* Interact function called from enhanced input key */
 	void Interact();
 
-	/* Find inventory slot */
+	/* Find inventory slot *
+	* Returns an index of an usable slot */
 	int FindSlot(FName itemID);
 
 	/* Get the max stack size of an item */
@@ -159,6 +165,21 @@ public:
 	/* Find a random drop location within the player radius */
 	FVector GetDropLocation();
 
+	void ConsumeItem(int index);
+
+	void SpawnConsumeEffect(FName itemID);
+
+protected:
+	// Called when the game starts
+	virtual void BeginPlay() override;
+
+private:
+	/* Sphere trace to see if there is an item to interact within radius of the player */
+	void InteractionTracing();
+
+	/* Interact with target actor */
+	void InteractWithActor(AActor* target);
+
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
 	int InventorySize; // Size of Inventory 
@@ -181,24 +202,14 @@ public:
 public:
 	FOnInventoryUpdated OnInventoryUpdated; // Delegate
 
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
-
 private:
 	AActor* lookAtActor; // Target actor
 	int m_quantityRemaining; // Local quantity Remaining
 	bool m_localHasFailed; // Fail safe for while loop
 	bool m_foundSlot; // Slot has been found
 	int m_emptyIndex; // The last empty index of inventory slot
-	TSubclassOf<UDataTable> ItemDataTableClass; // DataTable Class Reference
 	TSubclassOf<AActor> ItemClass; // Actor of Item Reference
+	TSubclassOf<UDisplayMessageWidget> DisplayMessageWidgetClass; // DisplayMessageWidget Class Reference
+	UDisplayMessageWidget* DisplayMessage;
 
-private:
-	/* Sphere trace to see if there is an item to interact within radius of the player */
-	void InteractionTracing();
-
-	/* Interact with target actor */
-	void InteractWithActor(AActor* target);
-	
 };
