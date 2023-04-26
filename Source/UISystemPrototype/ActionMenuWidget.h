@@ -12,19 +12,50 @@
 #include "InventorySystemComponent.h"
 #include "ActionMenuWidget.generated.h"
 
-/**
- * 
- */
+/*****************************************************************************
+ * Type: Class
+ *
+ * Name: UActionMenuWidget
+ *
+ * Author: Jaber A
+ *
+ * Purpose: Widget for the Action Menu
+ *
+ * Change Log:
+ * Date          Initials    Version     Comments
+ * 26/04/2023    JA          V1.0        Created Widget
+*****************************************************************************/
 UCLASS()
 class UISYSTEMPROTOTYPE_API UActionMenuWidget : public UUserWidget
 {
 	GENERATED_BODY()
 	
+public:
+	/* Construct */
+	virtual void NativeConstruct() override;
+
+	/* Overriden function for when player has moved their mouse cursor away */
+	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent);
+
+public:
+	/* Event for use button click */
+	UFUNCTION()
+	void OnUseButtonClicked();
+
+	/* Event for when drop (single item) button is clicked */
+	UFUNCTION()
+	void OnDropButtonClicked();
+
+	/* Event for when drop all (whole stack) button is clicked */
+	UFUNCTION()
+	void OnDropAllButtonClicked();
+
+public:
 	UPROPERTY(meta = (BindWidget))
-	class UCanvasPanel* Canvas;
+	class UCanvasPanel* Canvas; 
 
 	UPROPERTY(meta = (BindWidget))
-	class UBackgroundBlur* BackgroundBlur;
+	class UBackgroundBlur* BackgroundBlur; 
 
 	UPROPERTY(meta = (BindWidget))
 	class UVerticalBox* VerticalBox;
@@ -48,24 +79,8 @@ class UISYSTEMPROTOTYPE_API UActionMenuWidget : public UUserWidget
 	class UTextBlock* DropAllText;
 
 public:
-	UInventorySystemComponent* InventorySystemComponent;
-	int Index;
-
-public:
-	virtual void NativeConstruct() override;
-
-	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent);
-
-	/* Event for use button click */
-	UFUNCTION()
-	void OnUseButtonClicked();
-
-	/* Event for when drop (single item) button is clicked */
-	UFUNCTION()
-	void OnDropButtonClicked();
-
-	/* Event for when drop all (whole stack) button is clicked */
-	UFUNCTION()
-	void OnDropAllButtonClicked();
+	UInventorySystemComponent* InventorySystemComponent; // Reference to player inventory system
+	
+	int Index; // Item index
 
 };

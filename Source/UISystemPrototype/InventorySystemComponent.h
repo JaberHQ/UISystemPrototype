@@ -90,75 +90,40 @@ public:
 	// Sets default values for this component's properties
 	UInventorySystemComponent();
 
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
-
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-private:
-	AActor* lookAtActor; // Target actor
-	int m_quantityRemaining; // Local quantity Remaining
-	bool m_localHasFailed; // Fail safe for while loop
-	bool m_foundSlot; // Slot has been found
-	int m_emptyIndex; // The last empty index of inventory slot
+public:
+	/* Multicast delegate function to broadcast inventory update
+	// See: FOnInventoryUpdate delegate */
+	UFUNCTION()
+	void MulticastUpdate();
+
+	/* Debug print inventory system */
+	UFUNCTION(BlueprintCallable)
+	void Debug_Print();
 
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
-	int InventorySize; // Size of Inventory 
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
-	TArray<FSlotStruct> Content; // An array for the content of the inventory
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
-	float InteractionRange; // Range for interaction of objects 
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	class UInputMappingContext* InteractMappingContext; // Interact Mapping Context 
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	class UInputAction* InteractAction; // Interact Input Action 
-
-	TSubclassOf<AActor> ItemClass;
-
-	UPROPERTY(EditAnywhere, Category = "Inventory")
-	UDataTable* ItemDataTable;
-
-	TSubclassOf<UDataTable> ItemDataTableClass;
-
-	FOnInventoryUpdated OnInventoryUpdated; // Delegate
-
-private:
-	/* Sphere trace to see if there is an item to interact within radius of the player */
-	void InteractionTracing();
-
-	/* Interact with target actor */
-	void InteractWithActor(AActor* target);
-
-public:
-
 	/* Add item to inventory */
 	void AddToInventory(FName itemID, int quantity);
-	
+
 	/* Remove an item from inventory*/
 	void RemoveFromInventory(int index, bool removeWholeStack, bool isConsumed);
 
 	/* Set new inventory size */
 	void SetInventorySize(int newInventorySize);
-	
+
 	/* Get the current inventory size */
 	int GetInventorySize();
 
 	/* Set the interaction range of interactable objects */
 	void SetInteractionRange(float interactionRange);
-	
+
 	/* Get the interaction range of interactable objects */
 	float GetInteractionRange();
 
 	/* Interact function called from enhanced input key */
-	//UFUNCTION(BlueprintCallable, Category = "Interact")
 	void Interact();
 
 	/* Find inventory slot */
@@ -179,25 +144,61 @@ public:
 	/* Checks if inventory slot is available */
 	bool InventorySlotAvailable();
 
-	/* Debug print inventory system */
-	UFUNCTION(BlueprintCallable)
-	void Debug_Print();
-
 	/* Transfer item into new slot */
 	void TransferSlots(int sourceIndex, UInventorySystemComponent* sourceInventory, int destinationIndex);
 
-	/* Multicast delegate function to broadcast inventory update 
-	// See: FOnInventoryUpdate delegate */
-	UFUNCTION()
-	void MulticastUpdate(); 
-
+	/* Interaction between object and owner */
 	void OnInteract(AActor* target, AActor* interactor);
 
-	void RemoveItem(int index, bool removeWholeStack, bool isConsumed);
-	
+	/* Drop item onto the ground */
 	void DropItem(FName itemID, int quantity);
 
+	/* Get the respective item struct from the itemID */
 	FItemStruct& GetItemData(FName itemID);
 
+	/* Find a random drop location within the player radius */
 	FVector GetDropLocation();
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
+	int InventorySize; // Size of Inventory 
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
+	TArray<FSlotStruct> Content; // An array for the content of the inventory
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
+	float InteractionRange; // Range for interaction of objects 
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputMappingContext* InteractMappingContext; // Interact Mapping Context 
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* InteractAction; // Interact Input Action 
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	UDataTable* ItemDataTable; // Item DataTable reference 
+
+public:
+	FOnInventoryUpdated OnInventoryUpdated; // Delegate
+
+protected:
+	// Called when the game starts
+	virtual void BeginPlay() override;
+
+private:
+	AActor* lookAtActor; // Target actor
+	int m_quantityRemaining; // Local quantity Remaining
+	bool m_localHasFailed; // Fail safe for while loop
+	bool m_foundSlot; // Slot has been found
+	int m_emptyIndex; // The last empty index of inventory slot
+	TSubclassOf<UDataTable> ItemDataTableClass; // DataTable Class Reference
+	TSubclassOf<AActor> ItemClass; // Actor of Item Reference
+
+private:
+	/* Sphere trace to see if there is an item to interact within radius of the player */
+	void InteractionTracing();
+
+	/* Interact with target actor */
+	void InteractWithActor(AActor* target);
+	
 };

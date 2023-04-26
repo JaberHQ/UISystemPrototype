@@ -31,26 +31,24 @@ public:
 	// Sets default values for this actor's properties
 	ATestItemInteraction();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-/******************************* Interface functions ***********************************/
-//	
+/* Interface functions */
+public:
 	/* Events for when item is looked at by player */
 	virtual FText LookAt() override;
 
 	/* Takes in player reference and executes interaction events */
 	virtual void InteractWith(AUISystemPrototypeCharacter* playerCharacter) override;
-//
-/**************************************************************************************/
 
 public:
 	/** Item Data Component */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Inventory, meta = (AllowPrivateAccess = "true"))
 	class UItemDataComponent* ItemDataComponent;
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
 };

@@ -30,23 +30,11 @@ public:
 	// Sets default values for this component's properties
 	UItemDataComponent();
 
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
-
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
-	FDataTableRowHandle ItemID; // Item's unique ID
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
-	int Quantity; // Item's quantity
-
-public:
-	
 	/* Get Item ID from DataTable */
 	FDataTableRowHandle GetItemID();
 
@@ -56,13 +44,23 @@ public:
 	/* Get Item's Quantity */
 	int GetQuantity();
 
-/* ***************************** Interface functions ***********************************/
-//	
-//	/* Events for when item is looked at by player */
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
+	FDataTableRowHandle ItemID; // Item's unique ID
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
+	int Quantity; // Item's quantity
+
+
+/* Interface functions */
+public:
+	/* Events for when item is looked at by player */
 	virtual FText LookAt() override;
-//
-//	/* Takes in player reference and executes interaction events */
+
+	/* Takes in player reference and executes interaction events */
 	virtual void InteractWith(AUISystemPrototypeCharacter* playerCharacter) override;
-//
-/***************************************************************************************/
+
+protected:
+	// Called when the game starts
+	virtual void BeginPlay() override;
 };

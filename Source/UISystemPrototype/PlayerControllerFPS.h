@@ -24,14 +24,10 @@ UCLASS()
 class UISYSTEMPROTOTYPE_API APlayerControllerFPS : public APlayerController
 {
 	GENERATED_BODY()
-	
-private:
-	/* Function when inventory action is pressed */
-	void InventoryActionPressed();
 
-protected:
-	/* Begin play */
-	virtual void BeginPlay() override;
+public:
+	/* Constructor */
+	APlayerControllerFPS();
 
 public:
 	/** Inventory Mapping Context **/
@@ -42,11 +38,17 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* InventoryAction;
 
-	TSubclassOf<UPlayerHUDWidget> PlayerHudWidgetClass; // Reference to BP 'W_PlayerHUD' class
+	UPlayerHUDWidget* PlayerHUDWidget; // Object reference to playerHUD widget 
 
-	UPlayerHUDWidget* PlayerHUDWidget; // Reference to playerHUD widget 
+protected:
+	/* Begin play */
+	virtual void BeginPlay() override;
 
-public:
-	/* Constructor */
-	APlayerControllerFPS();
+private:
+	TSubclassOf<UPlayerHUDWidget> PlayerHudWidgetClass; // Class reference to BP 'W_PlayerHUD' class
+
+private:
+	/* Function when inventory action is pressed */
+	void InventoryActionPressed();
+
 };

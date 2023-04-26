@@ -96,19 +96,17 @@ public:
 	/* Constructor */
 	UInventorySlotWidget(const FObjectInitializer& ObjectInitializer);
 
-/****************************** Overriden from UUserWidget *******************************/
-//
+/* Overriden from UUserWidget */ 
+public:
 	/* Construct */
 	virtual void NativeConstruct() override;
-//
+
 	/* On preview mouse down */
 	virtual FReply NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
-//
+	
 	/* On drag detected */
 	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
-//
+	
 	/* On drop */
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
-//
-/******************************************************************************************/
 };

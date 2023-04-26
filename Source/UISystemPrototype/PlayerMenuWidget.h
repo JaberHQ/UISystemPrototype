@@ -28,13 +28,6 @@ class UISYSTEMPROTOTYPE_API UPlayerMenuWidget : public UUserWidget
 	GENERATED_BODY()
 	
 public:
-	UPROPERTY(meta = (BindWidget))
-	class UCanvasPanel* CanvasPanel;
-
-	UPROPERTY(meta = (BindWidget))
-	class UInventoryGridWidget* InventoryGridWidget;
-
-public:
 	/* Native Construct */
 	virtual void NativeConstruct() override;
 
@@ -43,5 +36,13 @@ public:
 
 	/* Overriden function to handle key down check */
 	virtual FReply NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
+
+public:
+	UPROPERTY(meta = (BindWidget))
+	class UCanvasPanel* CanvasPanel;
+
+	UPROPERTY(meta = (BindWidget))
+	class UInventoryGridWidget* InventoryGridWidget;
+
 
 };

@@ -260,10 +260,6 @@ void UInventorySystemComponent::OnInteract(AActor* target, AActor* interactor)
 	}
 }
 
-void UInventorySystemComponent::RemoveItem(int index, bool removeWholeStack, bool isConsumed)
-{
-}
-
 void UInventorySystemComponent::DropItem(FName itemID, int quantity)
 {
 	//quantity -= 1;
@@ -271,13 +267,9 @@ void UInventorySystemComponent::DropItem(FName itemID, int quantity)
 	{
 		ItemClass = GetItemData(itemID).ItemClass;
 		
-		FActorSpawnParameters spawnParams;
-
+		// Spawn actor
 		FTransform spawnTransform;
 		spawnTransform.SetLocation(GetDropLocation());
-		//spawnTransform.TransformVector(GetDropLocation());
-		//spawnParams.class
-		// Spawn actor
 		GetWorld()->SpawnActor<AActor>(ItemClass, spawnTransform);
 	}
 }
@@ -474,8 +466,6 @@ void UInventorySystemComponent::TransferSlots(int sourceIndex, UInventorySystemC
 			sourceInventory->MulticastUpdate();
 		}
 	}
-	
-
 }
 
 void UInventorySystemComponent::MulticastUpdate() 

@@ -27,18 +27,6 @@ class UISYSTEMPROTOTYPE_API UPlayerHUDWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
-public:
-	UPROPERTY(meta = (BindWidget))
-	class UCanvasPanel* CanvasPanel;
-
-public:
-	TSubclassOf<UUserWidget> PlayerMenuWidgetClass; // Reference to BP 'W_PlayerMenu' widget
-
-	UUserWidget* PlayerMenuWidget; // Player Menu Widget
-
-	TSubclassOf<UContainerInventoryWidget> ContainerInventoryWidgetClass;
-	
-	UContainerInventoryWidget* ContainerInventoryWidget;
 
 public:
 	/* Constructor */
@@ -47,6 +35,19 @@ public:
 	/* Display inventory menu */
 	void DisplayPlayerMenu();
 
-	void ShowContainer(UInventorySystemComponent* containerInventorySystemComponent);
+	/* Display container inventory menu */
+	void DisplayContainerMenu(UInventorySystemComponent* containerInventorySystemComponent);
 
+public:
+	UPROPERTY(meta = (BindWidget))
+	class UCanvasPanel* CanvasPanel;
+
+private:
+	TSubclassOf<UUserWidget> PlayerMenuWidgetClass; // Class reference to BP 'W_PlayerMenu' widget
+
+	UUserWidget* PlayerMenuWidget; // Object reference to player Menu Widget 
+
+	TSubclassOf<UContainerInventoryWidget> ContainerInventoryWidgetClass; // Class reference to BP 'W_ContainerInventory' widget
+
+	UContainerInventoryWidget* ContainerInventoryWidget; // Object reference to container inventory widget
 };

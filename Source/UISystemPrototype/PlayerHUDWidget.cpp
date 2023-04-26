@@ -31,8 +31,9 @@ void UPlayerHUDWidget::DisplayPlayerMenu()
 	}
 }
 
-void UPlayerHUDWidget::ShowContainer(UInventorySystemComponent* containerInventorySystemComponent)
+void UPlayerHUDWidget::DisplayContainerMenu(UInventorySystemComponent* containerInventorySystemComponent)
 {
+	/* Create container widget */
 	if(ContainerInventoryWidgetClass)
 	{
 		ContainerInventoryWidget = CreateWidget<UContainerInventoryWidget>(this, ContainerInventoryWidgetClass);
