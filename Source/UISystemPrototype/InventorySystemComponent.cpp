@@ -22,10 +22,10 @@ UInventorySystemComponent::UInventorySystemComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 
 
-	static ConstructorHelpers::FClassFinder<UDataTable> ItemDataTableClassFinder(TEXT("/Game/InventorySystem/DataTable/ItemData"));
+	/*static ConstructorHelpers::FClassFinder<UDataTable> ItemDataTableClassFinder(TEXT("/Game/InventorySystem/DataTable/ItemData"));
 	ItemDataTableClass = ItemDataTableClassFinder.Class;
 	if(ItemDataTableClass)
-		ItemDataTable = Cast<UDataTable>(ItemDataTableClass);
+		ItemDataTable = Cast<UDataTable>(ItemDataTableClass);*/
 
 
 	// Initialise Array
@@ -149,8 +149,38 @@ void UInventorySystemComponent::AddToInventory(FName itemID, int quantity)
 	}
 }
 
-void UInventorySystemComponent::RemoveFromInventory()
+void UInventorySystemComponent::RemoveFromInventory(int index, bool removeWholeStack, bool isConsumed)
 {
+	TArray<FSlotStruct> tempContent = Content;
+	FName tempItemID = tempContent[index].ItemID;
+	int	tempItemQuantity = tempContent[index].Quantity;
+
+	if(removeWholeStack || tempItemQuantity == 1)
+	{
+		Content[index].ItemID = NAME_None;
+		if(isConsumed)
+		{
+		}
+		else
+		{
+			DropItem(tempItemID, tempItemQuantity);
+		}
+	}
+	else
+	{
+		
+		Content[index].Quantity -= 1;
+
+		if(isConsumed)
+		{
+		}
+		else
+		{
+			DropItem(tempItemID, 1);
+		}
+	}
+
+	MulticastUpdate();
 }
 
 void UInventorySystemComponent::SetInventorySize(int newInventorySize)
@@ -216,9 +246,9 @@ void UInventorySystemComponent::InteractWithActor(AActor* target)
 	}
 }
 
-void UInventorySystemComponent::OnInteract(AActor* target, AActor* Interactor)
+void UInventorySystemComponent::OnInteract(AActor* target, AActor* interactor)
 {
-	AUISystemPrototypeCharacter* playerCharacter = Cast<AUISystemPrototypeCharacter>(Interactor);
+	AUISystemPrototypeCharacter* playerCharacter = Cast<AUISystemPrototypeCharacter>(interactor);
 	if(playerCharacter)
 	{
 		// If the target has interface applied
@@ -228,6 +258,50 @@ void UInventorySystemComponent::OnInteract(AActor* target, AActor* Interactor)
 			interactiveInterface->InteractWith(playerCharacter);
 		}
 	}
+}
+
+void UInventorySystemComponent::RemoveItem(int index, bool removeWholeStack, bool isConsumed)
+{
+}
+
+void UInventorySystemComponent::DropItem(FName itemID, int quantity)
+{
+	//quantity -= 1;
+	for(int i = 0; i< quantity; i++)
+	{
+		ItemClass = GetItemData(itemID).ItemClass;
+		
+		FActorSpawnParameters spawnParams;
+
+		FTransform spawnTransform;
+		spawnTransform.SetLocation(GetDropLocation());
+		//spawnTransform.TransformVector(GetDropLocation());
+		//spawnParams.class
+		// Spawn actor
+		GetWorld()->SpawnActor<AActor>(ItemClass, spawnTransform);
+	}
+}
+
+FItemStruct& UInventorySystemComponent::GetItemData(FName itemID)
+{
+	FItemStruct* item = ItemDataTable->FindRow<FItemStruct>(itemID, itemID.ToString());
+
+	return *item;
+}
+
+FVector UInventorySystemComponent::GetDropLocation()
+{
+	int DropRadius = 150.0f;
+
+	FVector randomUnitVector = UKismetMathLibrary::RandomUnitVectorInConeInDegrees(GetOwner()->GetActorForwardVector(), 30.0f);
+	FVector start = GetOwner()->GetActorLocation() + (randomUnitVector * DropRadius);
+	FVector end = start - FVector(0.0f, 0.0f, 500.0f);
+	FHitResult hit;
+	FCollisionQueryParams queryParams;
+	queryParams.bTraceComplex = false;
+	queryParams.AddIgnoredActor(GetOwner());
+	bool bHit = GetWorld()->LineTraceSingleByChannel(hit, start, end, ECollisionChannel::ECC_Visibility, queryParams);
+	return hit.Location;
 }
 
 int UInventorySystemComponent::FindSlot(FName itemID)

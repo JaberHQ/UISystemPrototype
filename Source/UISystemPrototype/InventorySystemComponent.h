@@ -121,6 +121,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* InteractAction; // Interact Input Action 
 
+	TSubclassOf<AActor> ItemClass;
+
 	UPROPERTY(EditAnywhere, Category = "Inventory")
 	UDataTable* ItemDataTable;
 
@@ -141,7 +143,7 @@ public:
 	void AddToInventory(FName itemID, int quantity);
 	
 	/* Remove an item from inventory*/
-	void RemoveFromInventory();
+	void RemoveFromInventory(int index, bool removeWholeStack, bool isConsumed);
 
 	/* Set new inventory size */
 	void SetInventorySize(int newInventorySize);
@@ -189,5 +191,13 @@ public:
 	UFUNCTION()
 	void MulticastUpdate(); 
 
-	void OnInteract(AActor* target, AActor* Interactor);
+	void OnInteract(AActor* target, AActor* interactor);
+
+	void RemoveItem(int index, bool removeWholeStack, bool isConsumed);
+	
+	void DropItem(FName itemID, int quantity);
+
+	FItemStruct& GetItemData(FName itemID);
+
+	FVector GetDropLocation();
 };

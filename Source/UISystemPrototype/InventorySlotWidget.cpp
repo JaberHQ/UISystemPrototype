@@ -14,6 +14,12 @@ UInventorySlotWidget::UInventorySlotWidget(const FObjectInitializer& ObjectIniti
 	{
 		DragPreviewWidgetClass = DragPreviewWidgetClassFinder.Class;
 	}
+
+	static ConstructorHelpers::FClassFinder<UActionMenuWidget> ActionMenuWidgetClassFinder(TEXT("/Game/InventorySystem/Widgets/W_ActionMenu"));
+	if(ActionMenuWidgetClassFinder.Class)
+	{
+		ActionMenuWidgetClass = ActionMenuWidgetClassFinder.Class;
+	}
 }
 
 void UInventorySlotWidget::NativeConstruct()
@@ -50,7 +56,21 @@ FReply UInventorySlotWidget::NativeOnPreviewMouseButtonDown(const FGeometry& InG
 	{
 		/* Detect if item is being dragged with left mouse click */
 		if(InMouseEvent.IsMouseButtonDown(EKeys::LeftMouseButton))
+		{
 			return UWidgetBlueprintLibrary::DetectDragIfPressed(InMouseEvent, this, EKeys::LeftMouseButton).NativeReply;
+		}
+
+		/* Detect if item has been right clicked (for drop down menu) */
+		if(InMouseEvent.IsMouseButtonDown(EKeys::RightMouseButton))
+		{
+			if(ActionMenu)
+				ActionMenu->RemoveFromParent();
+
+			ActionMenu = CreateWidget<UActionMenuWidget>(this, ActionMenuWidgetClass);
+			ActionMenu->InventorySystemComponent = InventorySystemComp;
+			ActionMenu->Index = ContentIndex;
+			ActionMenu->AddToViewport();
+		}
 	}
 	return FReply::Unhandled();
 

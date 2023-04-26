@@ -13,6 +13,7 @@
 #include "InventorySystemComponent.h"
 #include "DragInventorySlot.h"
 #include "DragPreviewWidget.h"
+#include "ActionMenuWidget.h"
 #include "InventorySlotWidget.generated.h"
 
 /*****************************************************************************
@@ -79,8 +80,13 @@ public:
 
 	UInventorySystemComponent* InventorySystemComp; // Reference to inventory system
 
+	UActionMenuWidget* ActionMenu;
+
 private:
 	TSubclassOf<UUserWidget> DragPreviewWidgetClass; // Reference to BP 'W_DragPreviewWidget' widget
+
+	TSubclassOf<UUserWidget> ActionMenuWidgetClass; // Reference to BP 'W_ActionMenu' widget
+
 
 	UDragPreviewWidget* DragPreviewWidget; // Reference to Drag Preview Widget
 
