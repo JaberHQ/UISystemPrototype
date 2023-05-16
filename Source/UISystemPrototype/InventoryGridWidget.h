@@ -59,10 +59,9 @@ public:
 	
 public:
 	UInventorySystemComponent* InventorySystemComp;
-
+	UInventorySlotWidget* InventorySlotWidget; // Object reference for inventory slot
 
 private:
 	TSubclassOf<UInventorySlotWidget> InventorySlotWidgetClass; // Class reference to BP_InventorySlot
-	UInventorySlotWidget* InventorySlotWidget; // Object reference for inventory slot
 
 };

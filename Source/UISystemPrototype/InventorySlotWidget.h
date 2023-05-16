@@ -52,6 +52,7 @@ public:
 	/* On drop */
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 
+
 public:
 	/* Widgets */
 	UPROPERTY(meta = (BindWidget))
@@ -109,4 +110,5 @@ private:
 	UDragPreviewWidget* DragPreviewWidget; // Reference to Drag Preview Widget
 
 	UDragInventorySlot* DragInventorySlot; // Reference to Drag and Drop operation
+
 };

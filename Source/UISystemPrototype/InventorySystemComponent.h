@@ -203,13 +203,14 @@ public:
 	FOnInventoryUpdated OnInventoryUpdated; // Delegate
 
 private:
-	AActor* lookAtActor; // Target actor
 	int m_quantityRemaining; // Local quantity Remaining
 	bool m_localHasFailed; // Fail safe for while loop
 	bool m_foundSlot; // Slot has been found
 	int m_emptyIndex; // The last empty index of inventory slot
+
+	AActor* LookAtActor; // Target actor
 	TSubclassOf<AActor> ItemClass; // Actor of Item Reference
 	TSubclassOf<UDisplayMessageWidget> DisplayMessageWidgetClass; // DisplayMessageWidget Class Reference
-	UDisplayMessageWidget* DisplayMessage;
+	UDisplayMessageWidget* DisplayMessage; // Object reference for DisplayMessageWidget
 
 };

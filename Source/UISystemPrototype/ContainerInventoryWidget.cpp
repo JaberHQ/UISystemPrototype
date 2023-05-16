@@ -26,6 +26,7 @@ void UContainerInventoryWidget::NativeConstruct()
 	{
 		ContainerInventory->SetFocus();
 		ContainerInventory->DisplayInventory(ContainerInventorySystemComponent);
+		
 	}
 
 	if(playerController)
@@ -39,6 +40,8 @@ void UContainerInventoryWidget::NativeConstruct()
 void UContainerInventoryWidget::NativeDestruct()
 {
 	Super::NativeDestruct();
+
+
 
 	APlayerController* playerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 

@@ -64,12 +64,14 @@ FReply UInventorySlotWidget::NativeOnPreviewMouseButtonDown(const FGeometry& InG
 		if(InMouseEvent.IsMouseButtonDown(EKeys::RightMouseButton))
 		{
 			if(ActionMenu)
-				ActionMenu->RemoveFromParent();
+				ActionMenu->RemoveFromParent(); // If there is an action menu already, remove it
 
+			/* Create Action Menu */
 			ActionMenu = CreateWidget<UActionMenuWidget>(this, ActionMenuWidgetClass);
 			ActionMenu->InventorySystemComponent = InventorySystemComp;
 			ActionMenu->Index = ContentIndex;
 			ActionMenu->AddToViewport();
+			
 		}
 	}
 	return FReply::Unhandled();
@@ -112,3 +114,4 @@ bool UInventorySlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDrag
 	}
 	return false;
 }
+

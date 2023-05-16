@@ -13,9 +13,15 @@
 // Sets default values for this component's properties
 UInventorySystemComponent::UInventorySystemComponent()
 	:InventorySize(16)
-	,lookAtActor(nullptr)
+	,LookAtActor(nullptr)
 	,InteractionRange(300.0f)
+	,m_quantityRemaining()
 	,m_localHasFailed(false)
+	,m_foundSlot()
+	,m_emptyIndex()
+	,ItemClass()
+	,DisplayMessage()
+	,OnInventoryUpdated()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
@@ -93,12 +99,12 @@ void UInventorySystemComponent::InteractionTracing()
 		/* If hit set target actor */
 		if(bHit)
 		{
-			if(lookAtActor != hit.GetActor())
+			if(LookAtActor != hit.GetActor())
 			{
-				lookAtActor = hit.GetActor();
+				LookAtActor = hit.GetActor();
 
 				// Call interface function for the pickup message
-				IInteractiveInterface* interactiveInterface = Cast<IInteractiveInterface>(lookAtActor);
+				IInteractiveInterface* interactiveInterface = Cast<IInteractiveInterface>(LookAtActor);
 				if(interactiveInterface)
 				{
 					FText message = interactiveInterface->LookAt();
@@ -109,7 +115,7 @@ void UInventorySystemComponent::InteractionTracing()
 		else
 		{
 			// Set target actor as null
-			lookAtActor = nullptr;
+			LookAtActor = nullptr;
 			FText message;
 			message.GetEmpty();
 			DisplayMessage->ShowMessage(message);
@@ -167,23 +173,16 @@ void UInventorySystemComponent::RemoveFromInventory(int index, bool removeWholeS
 	if(removeWholeStack || tempItemQuantity == 1)
 	{
 		Content[index].ItemID = NAME_None;
-		if(isConsumed)
-		{
-		}
-		else
+		if(!isConsumed)
 		{
 			DropItem(tempItemID, tempItemQuantity);
 		}
 	}
 	else
 	{
-		
 		Content[index].Quantity -= 1;
 
-		if(isConsumed)
-		{
-		}
-		else
+		if(!isConsumed)
 		{
 			DropItem(tempItemID, 1);
 		}
@@ -214,9 +213,9 @@ float UInventorySystemComponent::GetInteractionRange()
 
 void UInventorySystemComponent::Interact()
 {
-	if(lookAtActor)
+	if(LookAtActor)
 	{
-		InteractWithActor(lookAtActor);
+		InteractWithActor(LookAtActor);
 	}
 }
 
@@ -458,9 +457,6 @@ void UInventorySystemComponent::TransferSlots(int sourceIndex, UInventorySystemC
 			if(clampStackSize > 0)
 			{
 				tempSlot.ItemID = slotContent.ItemID;
-			}
-			else
-			{
 			}
 			
 			sourceInventory->Content[sourceIndex].ItemID = tempSlot.ItemID;
